@@ -119,7 +119,7 @@ img { display: block; max-width: 100%; }
 .closing__veil { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(22,11,5,.1), rgba(22,11,5,.18) 45%, rgba(22,11,5,.55)); }
 .lead-form--closing { position: relative; z-index: 1; margin-inline: auto; }
 .site-footer { min-height: 270px; padding: 52px 20px 30px; display: grid; gap: 38px; align-items: center; background: var(--brown-900); }
-.site-footer > img { width: 145px; }
+.site-footer__logo { width: min(195px, 58vw); height: auto; }
 .site-footer__partners { display: flex; flex-wrap: wrap; gap: 26px; color: var(--beige); align-items: center; font-family: Georgia, serif; font-size: .9rem; }
 .site-footer p { margin: 0; max-width: 620px; color: rgba(229,220,197,.25); font-size: .52rem; line-height: 1.6; }
 
