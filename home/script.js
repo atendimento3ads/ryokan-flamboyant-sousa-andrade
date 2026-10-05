@@ -178,12 +178,28 @@
     pendingCloseMethod = '';
   });
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
+  document.querySelector('[data-developer-credit]')?.addEventListener('click', () => {
+    trackEvent('external_link_click', {
+      link_name: '3ads',
+      link_url: 'https://3ads.com.br/',
+      link_location: 'footer'
     });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+  });
+
+  const revealElements = [...document.querySelectorAll('.reveal')];
+  const canAnimateReveal = 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canAnimateReveal) {
+    document.documentElement.classList.add('reveal-enabled');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px', threshold: 0.12 });
+    revealElements.forEach((element) => revealObserver.observe(element));
+  } else {
+    revealElements.forEach((element) => element.classList.add('is-visible'));
+  }
 })();

@@ -10,8 +10,8 @@
   <title>Ryokan Flamboyant | Página em desenvolvimento</title>
   <link rel="icon" href="../assets/logo.png" type="image/png">
   <link rel="preload" href="../assets/hero-building.webp" as="image" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261005-3">
+  <script src="script.js?v=20261005-3" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
@@ -95,8 +95,8 @@
       <div class="transformation__intro section-heading reveal">
         <p class="eyebrow">A maior transformação urbana da<br>história da cidade acontece aqui.</p>
       </div>
-      <img src="../assets/city-aerial.png" width="1920" height="1080" alt="Vista aérea do entorno do Shopping Flamboyant em Goiânia" loading="lazy">
-      <div class="feature-strip page-shell" aria-label="Diferenciais do empreendimento">
+      <img class="reveal reveal--scale" src="../assets/city-aerial.png" width="1920" height="1080" alt="Vista aérea do entorno do Shopping Flamboyant em Goiânia" loading="lazy">
+      <div class="feature-strip page-shell reveal" aria-label="Diferenciais do empreendimento">
         <article><span aria-hidden="true">⌁</span><p><strong>Zero oferta e</strong><br>alta procura</p></article>
         <article><span aria-hidden="true">⌑</span><p><strong>Ticket acessível</strong><br>e liquidez</p></article>
         <article><span aria-hidden="true">↗</span><p><strong>Alta demanda, alta</strong><br>rentabilidade, perto de tudo.</p></article>
@@ -122,14 +122,14 @@
     <section class="heritage" aria-labelledby="heritage-title">
       <img src="../assets/japanese-portrait.jpg" width="1920" height="1080" alt="Mulher japonesa em ambiente contemporâneo" loading="lazy">
       <div class="heritage__veil"></div>
-      <h2 id="heritage-title"><span>A tradição<br>milenar japonesa</span><span>revisitada com um<br>olhar contemporâneo.</span></h2>
+      <h2 class="reveal" id="heritage-title"><span>A tradição<br>milenar japonesa</span><span>revisitada com um<br>olhar contemporâneo.</span></h2>
     </section>
 
     <section class="demand section-texture">
       <div class="section-heading reveal">
         <p class="eyebrow">Alta demanda por estadia e<br>valorização sem precedentes.</p>
       </div>
-      <img class="location-map" src="../assets/location-map.jpg" width="2226" height="1636" alt="Mapa ilustrado da localização do Ryokan Flamboyant" loading="lazy">
+      <img class="location-map reveal reveal--scale" src="../assets/location-map.jpg" width="2226" height="1636" alt="Mapa ilustrado da localização do Ryokan Flamboyant" loading="lazy">
     </section>
 
     <section class="location section-dark" id="localizacao">
@@ -145,7 +145,7 @@
     <section class="closing" id="contato">
       <img src="../assets/street-scene.png" width="1672" height="941" alt="Fachada do Ryokan Flamboyant em cena urbana" loading="lazy">
       <div class="closing__veil"></div>
-      <form class="lead-form lead-form--closing" id="closing-form" novalidate data-lead-form>
+      <form class="lead-form lead-form--closing reveal reveal--right" id="closing-form" novalidate data-lead-form>
         <h2>Cadastre-se</h2>
         <div class="form-field"><label for="closing-name">Nome completo</label><input id="closing-name" name="name" type="text" autocomplete="name" required minlength="2"><span class="field-error" data-error-for="closing-name"></span></div>
         <div class="form-field"><label for="closing-email">E-mail</label><input id="closing-email" name="email" type="email" autocomplete="email" required><span class="field-error" data-error-for="closing-email"></span></div>
@@ -159,9 +159,12 @@
   </main>
 
   <footer class="site-footer">
-    <img class="site-footer__logo" src="../assets/footer-ryokan-logo.svg" width="195" height="41" alt="Ryokan Flamboyant">
-    <div class="site-footer__partners" aria-label="Realização"><span>Sousa Andrade</span><span>Humanae</span><span>NaVesa</span></div>
-    <p>Material de divulgação. Imagens meramente ilustrativas. Consulte condições e disponibilidade com a equipe comercial.</p>
+    <img class="site-footer__logo reveal" src="../assets/footer-ryokan-logo.svg" width="195" height="41" alt="Ryokan Flamboyant">
+    <div class="site-footer__partners reveal" aria-label="Realização"><span>Sousa Andrade</span><span>Humanae</span><span>NaVesa</span></div>
+    <div class="site-footer__meta reveal">
+      <p>Material de divulgação. Imagens meramente ilustrativas. Consulte condições e disponibilidade com a equipe comercial.</p>
+      <p class="site-footer__credit">Desenvolvido por <a href="https://3ads.com.br/" target="_blank" rel="noopener noreferrer" data-developer-credit>3ADS</a></p>
+    </div>
   </footer>
 
   <dialog class="unit-modal" id="unit-modal" aria-labelledby="unit-modal-title">
