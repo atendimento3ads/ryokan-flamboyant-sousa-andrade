@@ -97,13 +97,6 @@ img { display: block; max-width: 100%; }
 .unit-card > span { position: absolute; z-index: 2; left: 0; right: 0; bottom: 20px; display: flex; flex-direction: column; color: var(--cream); text-transform: uppercase; letter-spacing: .16em; }
 .unit-card small { font-size: .55rem; }
 .unit-card strong { margin-top: 4px; font-size: .82rem; }
-.unit-preview { min-height: 760px; margin-top: 55px; padding: 30px; background: #d6c9a8; color: var(--ink); text-align: center; }
-.unit-preview__header { display: flex; justify-content: space-between; text-align: left; }
-.unit-preview__header p { margin: 0; display: flex; flex-direction: column; text-transform: uppercase; letter-spacing: .15em; }
-.unit-preview__header strong { font-size: 1.5rem; font-weight: 400; }
-.unit-preview__header p span { font-size: .57rem; }
-.unit-preview > img { width: auto; height: 420px; margin: 32px auto 20px; object-fit: contain; }
-.unit-preview__facts { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 20px auto 28px; max-width: 760px; text-align: left; text-transform: uppercase; font-size: .52rem; line-height: 1.65; }
 
 .heritage { position: relative; min-height: 680px; overflow: hidden; }
 .heritage > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -151,7 +144,6 @@ img { display: block; max-width: 100%; }
   .lead-form { padding: 36px 38px; }
   .feature-strip { grid-template-columns: repeat(3, 1fr); }
   .unit-cards { grid-template-columns: repeat(2, 1fr); }
-  .unit-preview__facts { grid-template-columns: 1fr 1fr; }
   .heritage h2 { flex-direction: row; justify-content: space-between; align-items: center; gap: 0; }
   .location__inner { grid-template-columns: 1fr 1.15fr; }
   .closing { min-height: 590px; }
@@ -182,8 +174,6 @@ img { display: block; max-width: 100%; }
   .transformation > img { height: 730px; }
   .feature-strip { min-height: 190px; }
   .unit-card { min-height: 460px; }
-  .unit-preview { min-height: 720px; }
-  .unit-preview > img { height: 440px; }
   .heritage, .heritage h2 { min-height: 700px; }
   .location { min-height: 650px; }
   .closing { min-height: 610px; }
