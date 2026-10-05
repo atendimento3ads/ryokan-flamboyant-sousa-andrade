@@ -3,183 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Ryokan Flamboyant: studios de 28 m² e 29 m² em uma localização estratégica de Goiânia, ao lado do Shopping Flamboyant.">
-  <meta name="theme-color" content="#201108">
-  <title>Ryokan Flamboyant | Studios em Goiânia</title>
+  <meta name="description" content="Ryokan Flamboyant. Um novo conceito de morar e investir está chegando a Goiânia.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1d1008">
+  <title>Ryokan Flamboyant | Em breve</title>
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="preload" href="assets/hero-building.webp" as="image" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="coming-soon.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
-
-  <header class="site-header" data-header>
-    <a class="brand" href="#inicio" aria-label="Ryokan Flamboyant — início">
+  <main class="coming-soon">
+    <div class="coming-soon__background" role="img" aria-label="Edifício Ryokan Flamboyant"></div>
+    <div class="coming-soon__overlay"></div>
+    <header class="coming-soon__header">
       <img src="assets/logo.png" width="284" height="80" alt="Ryokan Flamboyant">
-    </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Abrir menu">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="primary-navigation" id="primary-navigation" aria-label="Navegação principal">
-      <a href="#inicio">Início</a>
-      <a href="#conceito">Conceito</a>
-      <a href="#lazer">Lazer</a>
-      <a href="#plantas">Plantas</a>
-      <a href="#localizacao">Localização</a>
-      <a href="#contato">Contato</a>
-    </nav>
-  </header>
-
-  <main id="main-content">
-    <section class="hero" id="inicio">
-      <div class="hero__image" role="img" aria-label="Edifício Ryokan Flamboyant visto de baixo"></div>
-      <div class="hero__shade"></div>
-      <div class="hero__content page-shell">
-        <div class="hero__copy">
-          <p class="eyebrow">A uma quadra do<br>Shopping Flamboyant</p>
-          <h1><strong>29</strong><span>m²</span> <i>e</i> <strong>45</strong><span>m²</span></h1>
-        </div>
-        <form class="lead-form" id="hero-form" novalidate data-lead-form>
-          <h2>Cadastre-se</h2>
-          <div class="form-field">
-            <label for="hero-name">Nome completo</label>
-            <input id="hero-name" name="name" type="text" autocomplete="name" required minlength="2">
-            <span class="field-error" data-error-for="hero-name"></span>
-          </div>
-          <div class="form-field">
-            <label for="hero-email">E-mail</label>
-            <input id="hero-email" name="email" type="email" autocomplete="email" required>
-            <span class="field-error" data-error-for="hero-email"></span>
-          </div>
-          <div class="form-field">
-            <label for="hero-phone">Telefone</label>
-            <input id="hero-phone" name="personal_phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000">
-            <span class="field-error" data-error-for="hero-phone"></span>
-          </div>
-          <label class="form-consent">
-            <input name="communications_consent" type="checkbox" required>
-            <span>Autorizo o contato sobre este empreendimento.</span>
-          </label>
-          <input type="hidden" name="conversion_identifier" value="ryokan-flamboyant-site">
-          <button class="button button--full" type="submit">Enviar</button>
-          <p class="form-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
+    </header>
+    <section class="coming-soon__content" aria-labelledby="coming-soon-title">
+      <p>Uma nova experiência está chegando</p>
+      <h1 id="coming-soon-title">Em breve</h1>
+      <span>Flamboyant · Goiânia</span>
     </section>
-
-    <section class="pool section-dark" id="conceito">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Pink pool inédita</p>
-        <h2>Ousadia e experiência, que geram rentabilidade</h2>
-      </div>
-      <div class="gallery page-shell reveal" data-carousel>
-        <div class="gallery__stage">
-          <button class="gallery__arrow gallery__arrow--previous" type="button" aria-label="Imagem anterior" data-carousel-previous>‹</button>
-          <img class="gallery__main" src="assets/pink-pool.jpg" width="3000" height="1288" alt="Piscina pink no rooftop com vista para Goiânia" data-carousel-main>
-          <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="Próxima imagem" data-carousel-next>›</button>
-        </div>
-        <div class="gallery__thumbs" role="list" aria-label="Ambientes do Ryokan">
-          <button class="gallery__thumb is-active" type="button" role="listitem" data-src="assets/pink-pool.jpg" data-alt="Piscina pink no rooftop com vista para Goiânia"><img src="assets/pink-pool.jpg" alt=""></button>
-          <button class="gallery__thumb" type="button" role="listitem" data-src="assets/gym.jpg" data-alt="Academia completa com acabamento em madeira"><img src="assets/gym.jpg" alt=""></button>
-          <button class="gallery__thumb" type="button" role="listitem" data-src="assets/cowork.jpg" data-alt="Ambiente de coworking iluminado"><img src="assets/cowork.jpg" alt=""></button>
-          <button class="gallery__thumb" type="button" role="listitem" data-src="assets/gourmet.jpg" data-alt="Espaço gourmet contemporâneo"><img src="assets/gourmet.jpg" alt=""></button>
-        </div>
-        <a class="button" href="#lazer">Saiba mais</a>
-      </div>
-    </section>
-
-    <section class="transformation" id="lazer">
-      <div class="transformation__intro section-heading reveal">
-        <p class="eyebrow">A maior transformação urbana da<br>história da cidade acontece aqui.</p>
-      </div>
-      <img src="assets/city-aerial.png" width="1920" height="1080" alt="Vista aérea do entorno do Shopping Flamboyant em Goiânia" loading="lazy">
-      <div class="feature-strip page-shell" aria-label="Diferenciais do empreendimento">
-        <article><span aria-hidden="true">⌁</span><p><strong>Zero oferta e</strong><br>alta procura</p></article>
-        <article><span aria-hidden="true">⌑</span><p><strong>Ticket acessível</strong><br>e liquidez</p></article>
-        <article><span aria-hidden="true">↗</span><p><strong>Alta demanda, alta</strong><br>rentabilidade, perto de tudo.</p></article>
-      </div>
-    </section>
-
-    <section class="units section-texture" id="plantas">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Metragem rara. Demanda comprovada.<br>Com vocação natural ao short stay.</p>
-      </div>
-      <div class="unit-cards page-shell reveal">
-        <button class="unit-card" type="button" data-open-unit="29" aria-label="Ver detalhes do studio de 29 metros quadrados">
-          <img src="assets/unit-29.jpg" width="3000" height="3000" alt="Interior do studio de 29 metros quadrados" loading="lazy">
-          <span><small>Studio</small><strong>29 m²</strong></span>
-        </button>
-        <button class="unit-card" type="button" data-open-unit="28" aria-label="Ver detalhes do studio de 28 metros quadrados">
-          <img src="assets/unit-28.jpg" width="3000" height="1500" alt="Interior do studio de 28 metros quadrados" loading="lazy">
-          <span><small>Studio</small><strong>28 m²</strong></span>
-        </button>
-      </div>
-      <div class="unit-preview page-shell reveal">
-        <div class="unit-preview__header"><p><strong>29m²</strong><span>Studio</span></p><span>×</span></div>
-        <img src="assets/floorplan.png" width="558" height="1199" alt="Planta humanizada do studio de 29 metros quadrados" loading="lazy">
-        <div class="unit-preview__facts"><p>• Banheiro de conceito e design amplo<br>• Bancada do banheiro em granito preto<br>• Revestimentos em porcelanato</p><p>• Porta estruturada para instalação de ar-condicionado<br>• Fechadura eletrônica<br>• Varanda integrada</p></div>
-        <button class="button" type="button" data-open-unit="29">Saiba mais</button>
-      </div>
-    </section>
-
-    <section class="heritage" aria-labelledby="heritage-title">
-      <img src="assets/japanese-portrait.jpg" width="1920" height="1080" alt="Mulher japonesa em ambiente contemporâneo" loading="lazy">
-      <div class="heritage__veil"></div>
-      <h2 id="heritage-title"><span>A tradição<br>milenar japonesa</span><span>revisitada com um<br>olhar contemporâneo.</span></h2>
-    </section>
-
-    <section class="demand section-texture">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Alta demanda por estadia e<br>valorização sem precedentes.</p>
-      </div>
-      <img class="location-map" src="assets/location-map.jpg" width="2226" height="1636" alt="Mapa ilustrado da localização do Ryokan Flamboyant" loading="lazy">
-    </section>
-
-    <section class="location section-dark" id="localizacao">
-      <div class="location__inner page-shell reveal">
-        <div class="location__copy">
-          <h2>Localização para<br>quem sabe morar.<br>Rentabilidade para<br>quem sabe investir.</h2>
-          <p>A poucos passos do Shopping Flamboyant, parques, restaurantes e serviços que movimentam Goiânia.</p>
-        </div>
-        <div class="location__art"><img src="assets/location-art.jpg" width="621" height="582" alt="Ilustração japonesa de ponte e cerejeiras" loading="lazy"></div>
-      </div>
-    </section>
-
-    <section class="closing" id="contato">
-      <img src="assets/street-scene.png" width="1672" height="941" alt="Fachada do Ryokan Flamboyant em cena urbana" loading="lazy">
-      <div class="closing__veil"></div>
-      <form class="lead-form lead-form--closing" id="closing-form" novalidate data-lead-form>
-        <h2>Cadastre-se</h2>
-        <div class="form-field"><label for="closing-name">Nome completo</label><input id="closing-name" name="name" type="text" autocomplete="name" required minlength="2"><span class="field-error" data-error-for="closing-name"></span></div>
-        <div class="form-field"><label for="closing-email">E-mail</label><input id="closing-email" name="email" type="email" autocomplete="email" required><span class="field-error" data-error-for="closing-email"></span></div>
-        <div class="form-field"><label for="closing-phone">Telefone</label><input id="closing-phone" name="personal_phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"><span class="field-error" data-error-for="closing-phone"></span></div>
-        <label class="form-consent"><input name="communications_consent" type="checkbox" required><span>Autorizo o contato sobre este empreendimento.</span></label>
-        <input type="hidden" name="conversion_identifier" value="ryokan-flamboyant-site">
-        <button class="button button--full" type="submit">Enviar</button>
-        <p class="form-status" role="status" aria-live="polite"></p>
-      </form>
-    </section>
+    <footer class="coming-soon__footer">
+      <p>Ryokan Flamboyant</p>
+    </footer>
   </main>
-
-  <footer class="site-footer">
-    <img src="assets/logo.png" width="284" height="80" alt="Ryokan Flamboyant">
-    <div class="site-footer__partners" aria-label="Realização"><span>Sousa Andrade</span><span>Humanae</span><span>NaVesa</span></div>
-    <p>Material de divulgação. Imagens meramente ilustrativas. Consulte condições e disponibilidade com a equipe comercial.</p>
-  </footer>
-
-  <dialog class="unit-modal" id="unit-modal" aria-labelledby="unit-modal-title">
-    <button class="unit-modal__close" type="button" aria-label="Fechar detalhes" data-close-unit>×</button>
-    <div class="unit-modal__content">
-      <div>
-        <p class="eyebrow">Studio Ryokan</p>
-        <h2 id="unit-modal-title">29 m² de inteligência e conforto</h2>
-        <p>Uma planta pensada para ampliar possibilidades: ambientes integrados, varanda e soluções adequadas à moradia e ao short stay.</p>
-        <ul><li>Fechadura eletrônica</li><li>Previsão para ar-condicionado</li><li>Banheiro com acabamento em granito</li><li>Varanda integrada</li></ul>
-        <a class="button" href="#contato" data-close-unit>Tenho interesse</a>
-      </div>
-      <img src="assets/floorplan.png" width="558" height="1199" alt="Planta do studio Ryokan">
-    </div>
-  </dialog>
 </body>
 </html>

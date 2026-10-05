@@ -37,10 +37,10 @@ img { display: block; max-width: 100%; }
 .primary-navigation.is-open { transform: translateX(0); }
 .primary-navigation a { color: var(--beige); text-decoration: none; text-transform: uppercase; letter-spacing: .3em; font-size: .72rem; }
 
-.hero { position: relative; min-height: 940px; padding-top: var(--header-height); overflow: hidden; }
-.hero__image { position: absolute; inset: var(--header-height) 0 0; background: url("assets/hero-building.webp") center top / cover no-repeat; }
+.hero { position: relative; min-height: 100vh; min-height: 100svh; padding-top: var(--header-height); overflow: hidden; }
+.hero__image { position: absolute; inset: var(--header-height) 0 0; background: url("../assets/hero-building.webp") center top / cover no-repeat; }
 .hero__shade { position: absolute; inset: var(--header-height) 0 0; background: linear-gradient(180deg, rgba(6,7,7,.18) 0%, rgba(18,9,4,.22) 35%, rgba(18,9,4,.88) 100%); }
-.hero__content { position: relative; z-index: 1; display: grid; align-content: end; gap: 30px; min-height: calc(940px - var(--header-height)); padding-block: 120px 56px; }
+.hero__content { position: relative; z-index: 1; display: grid; align-content: end; gap: 30px; min-height: calc(100vh - var(--header-height)); min-height: calc(100svh - var(--header-height)); padding-block: 120px 56px; }
 .hero__copy { text-transform: uppercase; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
 .eyebrow { margin: 0; color: var(--gold-light); text-transform: uppercase; letter-spacing: .18em; line-height: 1.5; font-size: clamp(.8rem, 1.3vw, 1.18rem); }
 .hero__copy h1 { margin: 12px 0 0; display: flex; align-items: baseline; gap: 6px; color: var(--gold-light); font-weight: 300; }
@@ -87,7 +87,7 @@ img { display: block; max-width: 100%; }
 .feature-strip span { color: var(--gold-light); font: 2rem/1 Georgia, serif; }
 .feature-strip p { margin: 0; color: var(--beige); text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; line-height: 1.45; }
 
-.section-texture { background: var(--brown-850) url("assets/gold-rays.jpg") center/cover fixed; }
+.section-texture { background: var(--brown-850) url("../assets/gold-rays.jpg") center/cover fixed; }
 .units { padding: 150px 0 60px; }
 .unit-cards { margin-top: 70px; display: grid; grid-template-columns: 1fr; gap: 10px; }
 .unit-card { position: relative; min-height: 350px; padding: 0; overflow: hidden; border: 0; background: var(--brown-900); cursor: pointer; }
@@ -145,9 +145,8 @@ img { display: block; max-width: 100%; }
 @media (min-width: 700px) {
   :root { --header-height: 70px; --shell: min(1120px, calc(100% - 80px)); }
   .site-header { padding-inline: 40px; }
-  .hero { min-height: 800px; }
-  .hero__content { min-height: calc(800px - var(--header-height)); grid-template-columns: 1fr 370px; align-items: center; align-content: center; padding-block: 90px 30px; }
-  .hero__image { background-size: 88vh auto; background-position: 26% 52%; background-color: #14303a; }
+  .hero__content { grid-template-columns: 1fr 370px; align-items: center; align-content: center; padding-block: 90px 30px; }
+  .hero__image { background-size: cover; background-position: 34% center; background-color: #14303a; }
   .hero__shade { background: linear-gradient(90deg, rgba(13,12,9,.34), rgba(13,12,9,.04) 55%, rgba(20,10,5,.35)), linear-gradient(0deg, rgba(19,10,5,.75), transparent 52%); }
   .lead-form { padding: 36px 38px; }
   .feature-strip { grid-template-columns: repeat(3, 1fr); }
@@ -170,8 +169,7 @@ img { display: block; max-width: 100%; }
   .primary-navigation { position: static; inset: auto; padding: 0; flex-direction: row; gap: clamp(18px, 3vw, 42px); background: transparent; transform: none; }
   .primary-navigation a { font-size: .55rem; transition: color .25s ease; }
   .primary-navigation a:hover { color: var(--gold-light); }
-  .hero { min-height: 690px; }
-  .hero__content { min-height: calc(690px - var(--header-height)); grid-template-columns: 1fr 360px; }
+  .hero__content { grid-template-columns: 1fr 360px; }
   .hero__image { background-size: cover; background-position: 34% center; }
   .hero__copy { padding-left: 20px; }
   .pool { min-height: 1070px; padding-top: 120px; }
