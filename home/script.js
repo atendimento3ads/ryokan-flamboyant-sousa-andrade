@@ -27,6 +27,7 @@
 
   menuToggle.addEventListener('click', () => {
     const willOpen = menuToggle.getAttribute('aria-expanded') !== 'true';
+    if (willOpen) header.classList.remove('is-hidden');
     menuToggle.setAttribute('aria-expanded', String(willOpen));
     menuToggle.setAttribute('aria-label', willOpen ? 'Fechar menu' : 'Abrir menu');
     navigation.classList.toggle('is-open', willOpen);
@@ -41,34 +42,205 @@
     });
     closeMenu();
   }));
-  window.addEventListener('scroll', () => header.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+  let previousScrollPosition = Math.max(window.scrollY, 0);
+  let headerScrollFrame = null;
+  const updateHeaderOnScroll = () => {
+    const currentScrollPosition = Math.max(window.scrollY, 0);
+    const scrollDifference = currentScrollPosition - previousScrollPosition;
+    const isMenuOpen = menuToggle.getAttribute('aria-expanded') === 'true';
 
-  const carousel = document.querySelector('[data-carousel]');
-  const mainImage = carousel.querySelector('[data-carousel-main]');
-  const thumbs = [...carousel.querySelectorAll('.gallery__thumb')];
-  let currentSlide = 0;
+    header.classList.toggle('is-scrolled', currentScrollPosition > 20);
+    if (currentScrollPosition <= 20 || isMenuOpen || scrollDifference < -3) {
+      header.classList.remove('is-hidden');
+    } else if (scrollDifference > 3) {
+      header.classList.add('is-hidden');
+    }
 
-  const showSlide = (index, interactionType = 'arrow') => {
-    currentSlide = (index + thumbs.length) % thumbs.length;
-    const thumb = thumbs[currentSlide];
-    mainImage.style.opacity = '0';
-    window.setTimeout(() => {
-      mainImage.src = thumb.dataset.src;
-      mainImage.alt = thumb.dataset.alt;
-      mainImage.style.opacity = '1';
-    }, 180);
-    thumbs.forEach((item, itemIndex) => item.classList.toggle('is-active', itemIndex === currentSlide));
+    previousScrollPosition = currentScrollPosition;
+    headerScrollFrame = null;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (headerScrollFrame !== null) return;
+    headerScrollFrame = window.requestAnimationFrame(updateHeaderOnScroll);
+  }, { passive: true });
+  header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
+
+  const poolCarousel = document.querySelector('[data-pool-carousel]');
+  const poolViewport = poolCarousel.querySelector('.pool-carousel__viewport');
+  const poolTrack = poolCarousel.querySelector('[data-pool-track]');
+  const poolSlides = [...poolCarousel.querySelectorAll('[data-pool-slide]')];
+  const poolStatus = poolCarousel.querySelector('[data-pool-status]');
+  let currentPoolSlide = 0;
+
+  const positionPoolTrack = (dragOffset = 0) => {
+    poolTrack.style.transform = `translate3d(calc(${-currentPoolSlide * 100}% + ${dragOffset}px), 0, 0)`;
+  };
+
+  const showPoolSlide = (index, interactionType) => {
+    currentPoolSlide = (index + poolSlides.length) % poolSlides.length;
+    const slide = poolSlides[currentPoolSlide];
+    positionPoolTrack();
+    poolStatus.textContent = `Imagem ${currentPoolSlide + 1} de ${poolSlides.length}`;
     trackEvent('carousel_navigation', {
-      carousel_name: 'amenities',
+      carousel_name: 'pool',
       interaction_type: interactionType,
-      slide_index: currentSlide + 1,
-      slide_name: thumb.dataset.alt
+      slide_index: currentPoolSlide + 1,
+      slide_name: slide.alt
     });
   };
 
-  thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => showSlide(index, 'thumbnail')));
-  carousel.querySelector('[data-carousel-previous]').addEventListener('click', () => showSlide(currentSlide - 1, 'previous'));
-  carousel.querySelector('[data-carousel-next]').addEventListener('click', () => showSlide(currentSlide + 1, 'next'));
+  poolCarousel.querySelector('[data-pool-previous]').addEventListener('click', () => showPoolSlide(currentPoolSlide - 1, 'previous'));
+  poolCarousel.querySelector('[data-pool-next]').addEventListener('click', () => showPoolSlide(currentPoolSlide + 1, 'next'));
+
+  const leisureCarousel = document.querySelector('[data-leisure-carousel]');
+  const leisureViewport = leisureCarousel.querySelector('.leisure-carousel__viewport');
+  const leisureTrack = leisureCarousel.querySelector('[data-leisure-track]');
+  const leisureSlides = [...leisureCarousel.querySelectorAll('.leisure-carousel__slide')];
+  const leisureStatus = leisureCarousel.querySelector('[data-leisure-status]');
+  const visibleLeisureSlides = 3;
+  const lastLeisureStart = Math.max(0, leisureSlides.length - visibleLeisureSlides);
+  let currentLeisureStart = 0;
+
+  const positionLeisureTrack = (dragOffset = 0) => {
+    const firstSlide = leisureSlides[0];
+    const activeSlide = leisureSlides[currentLeisureStart];
+    const offset = activeSlide.offsetLeft - firstSlide.offsetLeft;
+    leisureTrack.style.transform = `translate3d(${(-offset) + dragOffset}px, 0, 0)`;
+  };
+
+  const showLeisureSlides = (index, interactionType) => {
+    currentLeisureStart = index < 0 ? lastLeisureStart : index > lastLeisureStart ? 0 : index;
+    positionLeisureTrack();
+    leisureStatus.textContent = `Imagens ${currentLeisureStart + 1} a ${currentLeisureStart + visibleLeisureSlides} de ${leisureSlides.length}`;
+    trackEvent('carousel_navigation', {
+      carousel_name: 'leisure_areas',
+      interaction_type: interactionType,
+      slide_index: currentLeisureStart + 1,
+      visible_from: currentLeisureStart + 1,
+      visible_to: currentLeisureStart + visibleLeisureSlides
+    });
+  };
+
+  leisureCarousel.querySelector('[data-leisure-previous]').addEventListener('click', () => showLeisureSlides(currentLeisureStart - 1, 'previous'));
+  leisureCarousel.querySelector('[data-leisure-next]').addEventListener('click', () => showLeisureSlides(currentLeisureStart + 1, 'next'));
+
+  const enableCarouselDrag = ({ viewport, track, renderOffset, navigate }) => {
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let dragOffset = 0;
+    let isDragging = false;
+    let suppressClick = false;
+
+    const finishDrag = (event, cancelled = false) => {
+      if (pointerId === null || event.pointerId !== pointerId) return;
+      const pointerType = event.pointerType;
+      const shouldNavigate = !cancelled && isDragging && Math.abs(dragOffset) >= Math.min(45, viewport.clientWidth * .12);
+      pointerId = null;
+      viewport.classList.remove('is-dragging');
+      track.classList.remove('is-dragging');
+      if (shouldNavigate) {
+        suppressClick = true;
+        navigate(dragOffset < 0 ? 1 : -1, pointerType === 'mouse' ? 'drag' : 'swipe');
+      } else {
+        renderOffset(0);
+      }
+      dragOffset = 0;
+      isDragging = false;
+    };
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      dragOffset = 0;
+      isDragging = false;
+      viewport.setPointerCapture?.(pointerId);
+    });
+
+    viewport.addEventListener('pointermove', (event) => {
+      if (event.pointerId !== pointerId) return;
+      const distanceX = event.clientX - startX;
+      const distanceY = event.clientY - startY;
+      if (!isDragging && Math.abs(distanceX) <= Math.max(8, Math.abs(distanceY))) return;
+      isDragging = true;
+      dragOffset = distanceX * .88;
+      viewport.classList.add('is-dragging');
+      track.classList.add('is-dragging');
+      renderOffset(dragOffset);
+      event.preventDefault();
+    });
+
+    viewport.addEventListener('pointerup', (event) => finishDrag(event));
+    viewport.addEventListener('pointercancel', (event) => finishDrag(event, true));
+    viewport.addEventListener('lostpointercapture', (event) => finishDrag(event, true));
+    viewport.addEventListener('click', (event) => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
+  };
+
+  enableCarouselDrag({
+    viewport: poolViewport,
+    track: poolTrack,
+    renderOffset: positionPoolTrack,
+    navigate: (direction, interactionType) => showPoolSlide(currentPoolSlide + direction, interactionType)
+  });
+  enableCarouselDrag({
+    viewport: leisureViewport,
+    track: leisureTrack,
+    renderOffset: positionLeisureTrack,
+    navigate: (direction, interactionType) => showLeisureSlides(currentLeisureStart + direction, interactionType)
+  });
+
+  if ('ResizeObserver' in window) new ResizeObserver(() => positionLeisureTrack()).observe(leisureCarousel);
+  else window.addEventListener('resize', positionLeisureTrack, { passive: true });
+
+  const lightbox = document.querySelector('#image-lightbox');
+  const lightboxImage = lightbox.querySelector('[data-lightbox-image]');
+  const lightboxCaption = lightbox.querySelector('[data-lightbox-caption]');
+  let activeLightboxSlide = 0;
+  let pendingLightboxCloseMethod = '';
+
+  const openLightbox = (slide, index) => {
+    activeLightboxSlide = index + 1;
+    lightboxImage.src = slide.dataset.lightboxSrc;
+    lightboxImage.alt = slide.dataset.lightboxAlt;
+    lightboxCaption.textContent = slide.dataset.lightboxAlt;
+    lightbox.showModal();
+    document.body.classList.add('modal-open');
+    trackEvent('gallery_lightbox_open', {
+      carousel_name: 'leisure_areas',
+      slide_index: activeLightboxSlide,
+      slide_name: slide.dataset.lightboxAlt
+    });
+  };
+
+  const closeLightbox = (method) => {
+    pendingLightboxCloseMethod = method;
+    lightbox.close();
+  };
+
+  leisureSlides.forEach((slide, index) => slide.addEventListener('click', () => openLightbox(slide, index)));
+  lightbox.querySelector('[data-close-lightbox]').addEventListener('click', () => closeLightbox('close_button'));
+  lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox('backdrop'); });
+  lightbox.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeLightbox('escape_key');
+  });
+  lightbox.addEventListener('close', () => {
+    document.body.classList.remove('modal-open');
+    trackEvent('gallery_lightbox_close', {
+      carousel_name: 'leisure_areas',
+      slide_index: activeLightboxSlide,
+      close_method: pendingLightboxCloseMethod || 'native_close'
+    });
+    pendingLightboxCloseMethod = '';
+  });
 
   const phoneMask = (value) => {
     const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -137,31 +309,154 @@
 
   const modal = document.querySelector('#unit-modal');
   const modalTitle = document.querySelector('#unit-modal-title');
+  const modalKicker = document.querySelector('#unit-modal-kicker');
+  const modalDescription = document.querySelector('#unit-modal-description');
+  const modalFeatures = document.querySelector('#unit-modal-features');
+  const modalPlanTrack = document.querySelector('[data-unit-modal-track]');
+  const modalPlanPrevious = document.querySelector('[data-unit-plan-previous]');
+  const modalPlanNext = document.querySelector('[data-unit-plan-next]');
+  const modalPlanCounter = document.querySelector('[data-unit-plan-counter]');
+  const unitPlan = (final, image, imageWidth, imageHeight, imageAlt) => ({ final, image, imageWidth, imageHeight, imageAlt });
+  const unitData = {
+    26: {
+      type: 'Studio',
+      final: 'Final 09',
+      description: 'Studio de 26 m², final 09.',
+      plans: [unitPlan('Final 09', '../assets/IMAGENS/Plantas/26m-studio-final-09.webp?v=3', 1800, 834, 'Planta do studio de 26 metros quadrados, final 09')],
+      features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital com sistema inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada']
+    },
+    29: {
+      type: 'Studio',
+      final: 'Finais 02 a 07 e 10 a 14',
+      description: 'Studio de 29 m² disponível nos finais 02, 03, 04, 05, 06, 07, 10, 11, 12, 13 e 14.',
+      plans: [2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14].map((final) => unitPlan(`Final ${String(final).padStart(2, '0')}`, `../assets/IMAGENS/Plantas/29m-studio-final-${String(final).padStart(2, '0')}.webp?v=3`, 1800, 1772, `Planta do studio de 29 metros quadrados, final ${String(final).padStart(2, '0')}`)),
+      features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada']
+    },
+    34: {
+      type: '1 suíte',
+      final: 'Final 15',
+      description: 'Unidade de 34 m² com uma suíte, final 15.',
+      plans: [unitPlan('Final 15', '../assets/IMAGENS/Plantas/34m-1-suite-final-15.webp?v=3', 1800, 1376, 'Planta da unidade de 34 metros quadrados com uma suíte, final 15')],
+      features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada no quarto']
+    },
+    45: {
+      type: '2 quartos',
+      final: 'Final 08',
+      description: 'Unidade de 45 m² com dois quartos, final 08.',
+      plans: [unitPlan('Final 08', '../assets/IMAGENS/Plantas/45m-2-quartos-final-08.webp?v=3', 1773, 1800, 'Planta da unidade de 45 metros quadrados com dois quartos, final 08')],
+      features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit nos quartos e sala', 'Veneziana integrada nos quartos']
+    },
+    48: {
+      type: '2 quartos',
+      final: 'Final 01',
+      description: 'Unidade de 48 m² com dois quartos, final 01.',
+      plans: [unitPlan('Final 01', '../assets/IMAGENS/Plantas/48m-2-quartos-final-01.webp?v=3', 1786, 1800, 'Planta da unidade de 48 metros quadrados com dois quartos, final 01')],
+      features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit nos quartos e sala', 'Veneziana integrada nos quartos']
+    }
+  };
   let activeUnitSize = '';
+  let activeUnit = null;
+  let activeUnitPlanIndex = 0;
   let pendingCloseMethod = '';
+
+  const showUnitPlan = (index, interactionType = 'initial', shouldTrack = true) => {
+    if (!activeUnit?.plans.length) return;
+    activeUnitPlanIndex = (index + activeUnit.plans.length) % activeUnit.plans.length;
+    modalPlanTrack.style.transform = `translate3d(${-activeUnitPlanIndex * 100}%, 0, 0)`;
+    [...modalPlanTrack.children].forEach((slide, slideIndex) => slide.setAttribute('aria-hidden', String(slideIndex !== activeUnitPlanIndex)));
+    const selectedPlan = activeUnit.plans[activeUnitPlanIndex];
+    modalPlanCounter.textContent = activeUnit.plans.length > 1
+      ? `${selectedPlan.final} · Planta ${activeUnitPlanIndex + 1} de ${activeUnit.plans.length}`
+      : selectedPlan.final;
+    if (shouldTrack && activeUnit.plans.length > 1) {
+      trackEvent('unit_plan_carousel_navigation', {
+        unit_size: activeUnitSize,
+        unit_type: activeUnit.type,
+        unit_final: selectedPlan.final,
+        interaction_type: interactionType,
+        slide_index: activeUnitPlanIndex + 1
+      });
+    }
+  };
+
+  const renderUnitPlans = (selectedUnit) => {
+    const slides = selectedUnit.plans.map((plan, index) => {
+      const slide = document.createElement('div');
+      slide.className = 'unit-modal__slide';
+      slide.setAttribute('aria-hidden', String(index !== 0));
+      const image = document.createElement('img');
+      image.src = plan.image;
+      image.width = plan.imageWidth;
+      image.height = plan.imageHeight;
+      image.alt = plan.imageAlt;
+      image.decoding = 'async';
+      if (index > 0) image.loading = 'lazy';
+      slide.append(image);
+      return slide;
+    });
+    modalPlanTrack.replaceChildren(...slides);
+    const hasMultiplePlans = selectedUnit.plans.length > 1;
+    modalPlanPrevious.hidden = !hasMultiplePlans;
+    modalPlanNext.hidden = !hasMultiplePlans;
+    showUnitPlan(0, 'initial', false);
+  };
+
   const openModal = (size) => {
+    const selectedUnit = unitData[size];
+    if (!selectedUnit) return;
     activeUnitSize = size;
-    modalTitle.textContent = `${size} m² de inteligência e conforto`;
+    activeUnit = selectedUnit;
+    modalKicker.textContent = `${selectedUnit.type} · ${selectedUnit.final}`;
+    modalTitle.textContent = `${size} m²`;
+    modalDescription.textContent = selectedUnit.description;
+    modalFeatures.replaceChildren(...selectedUnit.features.map((feature) => {
+      const item = document.createElement('li');
+      item.textContent = feature;
+      return item;
+    }));
+    renderUnitPlans(selectedUnit);
     modal.showModal();
     modal.scrollTop = 0;
     document.body.classList.add('modal-open');
-    trackEvent('unit_modal_open', { unit_size: size });
+    trackEvent('unit_modal_open', { unit_size: size, unit_type: selectedUnit.type, unit_final: selectedUnit.final });
   };
+  modalPlanPrevious.addEventListener('click', () => showUnitPlan(activeUnitPlanIndex - 1, 'previous'));
+  modalPlanNext.addEventListener('click', () => showUnitPlan(activeUnitPlanIndex + 1, 'next'));
+
+  let unitPlanTouchStartX = null;
+  modalPlanTrack.addEventListener('touchstart', (event) => { unitPlanTouchStartX = event.touches[0].clientX; }, { passive: true });
+  modalPlanTrack.addEventListener('touchend', (event) => {
+    if (unitPlanTouchStartX === null || !activeUnit || activeUnit.plans.length < 2) return;
+    const distance = event.changedTouches[0].clientX - unitPlanTouchStartX;
+    unitPlanTouchStartX = null;
+    if (Math.abs(distance) < 45) return;
+    showUnitPlan(activeUnitPlanIndex + (distance < 0 ? 1 : -1), 'swipe');
+  }, { passive: true });
+
+  modal.addEventListener('keydown', (event) => {
+    if (!activeUnit || activeUnit.plans.length < 2) return;
+    if (event.key === 'ArrowLeft') showUnitPlan(activeUnitPlanIndex - 1, 'keyboard_previous');
+    if (event.key === 'ArrowRight') showUnitPlan(activeUnitPlanIndex + 1, 'keyboard_next');
+  });
+
   const closeModal = (method = 'close_button') => {
     pendingCloseMethod = method;
     modal.close();
     document.body.classList.remove('modal-open');
   };
   document.querySelectorAll('[data-open-unit]').forEach((button) => button.addEventListener('click', () => {
+    const selectedUnit = unitData[button.dataset.openUnit];
     trackEvent('unit_option_click', {
       unit_size: button.dataset.openUnit,
+      unit_type: selectedUnit?.type,
+      unit_final: selectedUnit?.final,
       trigger_location: button.classList.contains('unit-card') ? 'unit_card' : 'unit_preview'
     });
     openModal(button.dataset.openUnit);
   }));
   modal.querySelector('.unit-modal__close').addEventListener('click', () => closeModal('close_button'));
   modal.querySelector('a[data-close-unit]').addEventListener('click', () => {
-    trackEvent('unit_modal_cta_click', { unit_size: activeUnitSize, cta_target: 'contact' });
+    trackEvent('unit_modal_cta_click', { unit_size: activeUnitSize, unit_type: activeUnit?.type, unit_final: activeUnit?.final, cta_target: 'contact' });
     closeModal('cta');
   });
   modal.addEventListener('click', (event) => { if (event.target === modal) closeModal('backdrop'); });
@@ -173,6 +468,8 @@
     document.body.classList.remove('modal-open');
     trackEvent('unit_modal_close', {
       unit_size: activeUnitSize,
+      unit_type: activeUnit?.type,
+      unit_final: activeUnit?.final,
       close_method: pendingCloseMethod || 'native_close'
     });
     pendingCloseMethod = '';

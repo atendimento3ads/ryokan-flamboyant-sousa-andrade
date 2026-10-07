@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="description" content="Ryokan Flamboyant: studios de 28 m² e 29 m² em uma localização estratégica de Goiânia, ao lado do Shopping Flamboyant.">
+  <meta name="description" content="Ryokan Flamboyant: unidades de 26 m² a 48 m² em uma localização estratégica de Goiânia, ao lado do Shopping Flamboyant.">
   <meta name="theme-color" content="#201108">
   <title>Ryokan Flamboyant | Página em desenvolvimento</title>
   <link rel="icon" href="../assets/logo.png" type="image/png">
   <link rel="preload" href="../assets/hero-building.webp" as="image" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261005-3">
-  <script src="script.js?v=20261005-3" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261007-11">
+  <script src="script.js?v=20261007-5" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
@@ -40,7 +40,17 @@
       <div class="hero__content page-shell">
         <div class="hero__copy">
           <p class="eyebrow">A uma quadra do<br>Shopping Flamboyant</p>
-          <h1><strong>29</strong><span>m²</span> <i>e</i> <strong>45</strong><span>m²</span></h1>
+          <h1 class="hero__measurements" aria-label="Supercompacto de 29 metros quadrados e 2 quartos de 45 metros quadrados">
+            <span class="hero__measurement">
+              <span class="hero__measurement-label">Supercompacto de</span>
+              <span class="hero__measurement-value"><strong>29</strong><span class="hero__measurement-unit">M<sup>2</sup></span></span>
+            </span>
+            <span class="hero__measurement-divider" aria-hidden="true"></span>
+            <span class="hero__measurement">
+              <span class="hero__measurement-label"><b>2</b> quartos de</span>
+              <span class="hero__measurement-value"><strong>45</strong><span class="hero__measurement-unit">M<sup>2</sup></span></span>
+            </span>
+          </h1>
         </div>
         <form class="lead-form" id="hero-form" novalidate data-lead-form>
           <h2>Cadastre-se</h2>
@@ -75,17 +85,63 @@
         <p class="eyebrow">Pink pool inédita</p>
         <h2>Ousadia e experiência, que geram rentabilidade</h2>
       </div>
-      <div class="gallery page-shell reveal" data-carousel>
-        <div class="gallery__stage">
-          <button class="gallery__arrow gallery__arrow--previous" type="button" aria-label="Imagem anterior" data-carousel-previous>‹</button>
-          <img class="gallery__main" src="../assets/pink-pool.jpg" width="3000" height="1288" alt="Piscina pink no rooftop com vista para Goiânia" data-carousel-main>
-          <button class="gallery__arrow gallery__arrow--next" type="button" aria-label="Próxima imagem" data-carousel-next>›</button>
+      <div class="gallery page-shell reveal">
+        <div class="pool-carousel" data-pool-carousel aria-roledescription="carrossel" aria-label="Piscina pink do Ryokan Flamboyant">
+          <div class="pool-carousel__stage">
+            <button class="carousel-arrow carousel-arrow--previous" type="button" aria-label="Imagem anterior da piscina" data-pool-previous>‹</button>
+            <div class="pool-carousel__viewport">
+              <div class="pool-carousel__track" data-pool-track>
+                <img class="pool-carousel__slide" src="../assets/IMAGENS/Piscina/3613_F_IMG_ROOFTOP_PISCINA_CAM_01_R06.webp" width="1250" height="703" alt="Piscina pink no rooftop com vista para Goiânia" data-pool-slide decoding="async">
+                <img class="pool-carousel__slide" src="../assets/IMAGENS/Piscina/3613_F_IMG_ROOFTOP_PISCINA_CAM_02_R05.webp" width="1250" height="703" alt="Piscina pink e área de descanso no rooftop" data-pool-slide loading="lazy" decoding="async">
+                <img class="pool-carousel__slide" src="../assets/IMAGENS/Piscina/3613_F_IMG_ROOFTOP_PISCINA_CAM_03_R03.webp" width="1250" height="703" alt="Vista panorâmica da piscina pink no rooftop" data-pool-slide loading="lazy" decoding="async">
+                <img class="pool-carousel__slide" src="../assets/IMAGENS/Piscina/3613_F_IMG_ROOFTOP_PISCINA_CAM_04_R06.webp" width="1250" height="703" alt="Piscina pink do Ryokan Flamboyant ao entardecer" data-pool-slide loading="lazy" decoding="async">
+              </div>
+            </div>
+            <button class="carousel-arrow carousel-arrow--next" type="button" aria-label="Próxima imagem da piscina" data-pool-next>›</button>
+          </div>
+          <p class="sr-only" aria-live="polite" data-pool-status>Imagem 1 de 4</p>
         </div>
-        <div class="gallery__thumbs" role="list" aria-label="Ambientes do Ryokan">
-          <button class="gallery__thumb is-active" type="button" role="listitem" data-src="../assets/pink-pool.jpg" data-alt="Piscina pink no rooftop com vista para Goiânia"><img src="../assets/pink-pool.jpg" alt=""></button>
-          <button class="gallery__thumb" type="button" role="listitem" data-src="../assets/gym.jpg" data-alt="Academia completa com acabamento em madeira"><img src="../assets/gym.jpg" alt=""></button>
-          <button class="gallery__thumb" type="button" role="listitem" data-src="../assets/cowork.jpg" data-alt="Ambiente de coworking iluminado"><img src="../assets/cowork.jpg" alt=""></button>
-          <button class="gallery__thumb" type="button" role="listitem" data-src="../assets/gourmet.jpg" data-alt="Espaço gourmet contemporâneo"><img src="../assets/gourmet.jpg" alt=""></button>
+
+        <div class="leisure-carousel" data-leisure-carousel aria-roledescription="carrossel" aria-label="Ambientes e áreas de lazer do Ryokan Flamboyant">
+          <button class="carousel-arrow carousel-arrow--previous" type="button" aria-label="Imagem anterior das áreas de lazer" data-leisure-previous>‹</button>
+          <div class="leisure-carousel__viewport">
+            <div class="leisure-carousel__track" data-leisure-track>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar academia" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_ACADEMIA_CAM_02_R03.webp" data-lightbox-alt="Academia completa do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_ACADEMIA_CAM_02_R03.webp" width="1250" height="703" alt="Academia completa do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar coworking" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_COWORKING_CAM_01_R04.webp" data-lightbox-alt="Coworking do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_COWORKING_CAM_01_R04.webp" width="1250" height="703" alt="Coworking do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar segunda vista do coworking" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_COWORKING_CAM_02_R04.webp" data-lightbox-alt="Segunda vista do coworking do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_COWORKING_CAM_02_R04.webp" width="1250" height="703" alt="Segunda vista do coworking do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar espaço gourmet" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_01_R04.webp" data-lightbox-alt="Espaço gourmet do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_01_R04.webp" width="1250" height="703" alt="Espaço gourmet do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar segunda vista do espaço gourmet" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_CAM01_R02.webp" data-lightbox-alt="Segunda vista do espaço gourmet"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_CAM01_R02.webp" width="1250" height="703" alt="Segunda vista do espaço gourmet" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar terceira vista do espaço gourmet" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_CAM02_R03.webp" data-lightbox-alt="Terceira vista do espaço gourmet"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_CAM02_R03.webp" width="1250" height="703" alt="Terceira vista do espaço gourmet" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar área gourmet contemporânea" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_02_CAM_03_R03.webp" data-lightbox-alt="Área gourmet contemporânea"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_GOURMET_02_CAM_03_R03.webp" width="1250" height="703" alt="Área gourmet contemporânea" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar sauna" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_SAUNA_R04.webp" data-lightbox-alt="Sauna do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_SAUNA_R04.webp" width="1250" height="703" alt="Sauna do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar lavanderia" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_LAVANDERIA_R02.webp" data-lightbox-alt="Lavanderia compartilhada do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_LAVANDERIA_R02.webp" width="1250" height="703" alt="Lavanderia compartilhada do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar minimercado" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_MINI_MARKET_R06.webp" data-lightbox-alt="Minimercado do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_MINI_MARKET_R06.webp" width="1250" height="703" alt="Minimercado do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar espaço delivery" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_DELIVERY_R05.webp" data-lightbox-alt="Espaço delivery do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_DELIVERY_R05.webp" width="1250" height="703" alt="Espaço delivery do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar lobby" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_LOBBY_CAM_01_R01.webp" data-lightbox-alt="Lobby do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_LOBBY_CAM_01_R01.webp" width="1250" height="703" alt="Lobby do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar segunda vista do lobby" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_LOBBY_CAM_02_R03.webp" data-lightbox-alt="Segunda vista do lobby"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_LOBBY_CAM_02_R03.webp" width="1250" height="703" alt="Segunda vista do lobby" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar elevador" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_ELEVADOR_R02.webp" data-lightbox-alt="Hall do elevador do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_ELEVADOR_R02.webp" width="1250" height="703" alt="Hall do elevador do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar circulação do pavimento" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_CIRCULACAO_PAV_TIPO_R02.webp" data-lightbox-alt="Circulação do pavimento do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_CIRCULACAO_PAV_TIPO_R02.webp" width="1250" height="703" alt="Circulação do pavimento do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar circulação do rooftop" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_CIRCULACAO_ROOFTOP_R01.webp" data-lightbox-alt="Circulação do rooftop do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_CIRCULACAO_ROOFTOP_R01.webp" width="1250" height="703" alt="Circulação do rooftop do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar corredor zen" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_CORREDOR_ZEN_R03.webp" data-lightbox-alt="Corredor zen do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_CORREDOR_ZEN_R03.webp" width="1250" height="703" alt="Corredor zen do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar cozinha e living" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_COZINHA_LIVING_R05.webp" data-lightbox-alt="Cozinha e living de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_COZINHA_LIVING_R05.webp" width="1250" height="703" alt="Cozinha e living de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar office da unidade" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_OFFICE_R04.webp" data-lightbox-alt="Office de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_OFFICE_R04.webp" width="1250" height="703" alt="Office de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar quarto da unidade" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_QUARTO_R03.webp" data-lightbox-alt="Quarto de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_QUARTO_R03.webp" width="1250" height="703" alt="Quarto de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar ambiente da unidade 8" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F08_R01.webp" data-lightbox-alt="Ambiente de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F08_R01.webp" width="1250" height="703" alt="Ambiente de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar ambiente da unidade 9" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F09_R01.webp" data-lightbox-alt="Segundo ambiente de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F09_R01.webp" width="1250" height="703" alt="Segundo ambiente de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar living da unidade" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F15_LIVING_R00.webp" data-lightbox-alt="Living de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F15_LIVING_R00.webp" width="1250" height="703" alt="Living de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar suíte da unidade" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F15_SUITE_R00.webp" data-lightbox-alt="Suíte de uma unidade Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F15_SUITE_R00.webp" width="1250" height="703" alt="Suíte de uma unidade Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar decorado" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_DECORADO_F13_CAM_01_R00.webp" data-lightbox-alt="Apartamento decorado Ryokan"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_DECORADO_F13_CAM_01_R00.webp" width="1250" height="703" alt="Apartamento decorado Ryokan" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar segunda vista do decorado" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_DECORADO_F13_CAM_02_R01.webp" data-lightbox-alt="Segunda vista do apartamento decorado"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_DECORADO_F13_CAM_02_R01.webp" width="1250" height="703" alt="Segunda vista do apartamento decorado" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar fachada diurna" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_ANGULADA_DIURNA_R05.webp" data-lightbox-alt="Fachada do Ryokan Flamboyant durante o dia"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_ANGULADA_DIURNA_R05.webp" width="1250" height="703" alt="Fachada do Ryokan Flamboyant durante o dia" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar fachada frontal" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_ANGULADA_FRONTAL_R04.webp" data-lightbox-alt="Fachada frontal do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_ANGULADA_FRONTAL_R04.webp" width="1250" height="703" alt="Fachada frontal do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar fachada noturna" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_ANGULADA_NOTURNA_R09.webp" data-lightbox-alt="Fachada noturna do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_ANGULADA_NOTURNA_R09.webp" width="1250" height="703" alt="Fachada noturna do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar fachada conceitual" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_CONCEITO_FISHEYE_R02.webp" data-lightbox-alt="Fachada conceitual do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_CONCEITO_FISHEYE_R02.webp" width="1250" height="703" alt="Fachada conceitual do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar fachada principal" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_FRONTAL_R10.webp" data-lightbox-alt="Fachada principal do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_FRONTAL_R10.webp" width="1250" height="703" alt="Fachada principal do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+              <button class="leisure-carousel__slide" type="button" aria-label="Ampliar vista superior da fachada" data-lightbox-src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_SUPERIOR_R06.webp" data-lightbox-alt="Vista superior da fachada do Ryokan Flamboyant"><img src="../assets/IMAGENS/Gerais/3613_F_IMG_FACHADA_SUPERIOR_R06.webp" width="1250" height="703" alt="Vista superior da fachada do Ryokan Flamboyant" loading="lazy" decoding="async"></button>
+            </div>
+          </div>
+          <button class="carousel-arrow carousel-arrow--next" type="button" aria-label="Próxima imagem das áreas de lazer" data-leisure-next>›</button>
+          <p class="sr-only" aria-live="polite" data-leisure-status>Imagens 1 a 3 de 32</p>
         </div>
         <a class="button" href="#lazer">Saiba mais</a>
       </div>
@@ -97,9 +153,9 @@
       </div>
       <img class="reveal reveal--scale" src="../assets/city-aerial.png" width="1920" height="1080" alt="Vista aérea do entorno do Shopping Flamboyant em Goiânia" loading="lazy">
       <div class="feature-strip page-shell reveal" aria-label="Diferenciais do empreendimento">
-        <article><span aria-hidden="true">⌁</span><p><strong>Zero oferta e</strong><br>alta procura</p></article>
-        <article><span aria-hidden="true">⌑</span><p><strong>Ticket acessível</strong><br>e liquidez</p></article>
-        <article><span aria-hidden="true">↗</span><p><strong>Alta demanda, alta</strong><br>rentabilidade, perto de tudo.</p></article>
+        <article><span aria-hidden="true">⌁</span><p><strong>Zero oferta</strong></p></article>
+        <article><span aria-hidden="true">⌑</span><p><strong>Alta demanda</strong></p></article>
+        <article><span aria-hidden="true">↗</span><p><strong>Alta rentabilidade</strong><br>ao lado do Flamboyant.</p></article>
       </div>
     </section>
 
@@ -108,13 +164,25 @@
         <p class="eyebrow">Metragem rara. Demanda comprovada.<br>Com vocação natural ao short stay.</p>
       </div>
       <div class="unit-cards page-shell reveal">
-        <button class="unit-card" type="button" data-open-unit="29" aria-label="Ver detalhes do studio de 29 metros quadrados">
-          <img src="../assets/unit-29.jpg" width="3000" height="3000" alt="Interior do studio de 29 metros quadrados" loading="lazy">
-          <span><small>Studio</small><strong>29 m²</strong></span>
+        <button class="unit-card" type="button" data-open-unit="26" aria-label="Ver detalhes do studio de 26 metros quadrados, final 09">
+          <img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F09_R01.webp" width="1250" height="703" alt="Perspectiva interna do studio de 26 metros quadrados, final 09" loading="lazy" decoding="async">
+          <span><small>Studio · Final 09</small><strong>26 m²</strong></span>
         </button>
-        <button class="unit-card" type="button" data-open-unit="28" aria-label="Ver detalhes do studio de 28 metros quadrados">
-          <img src="../assets/unit-28.jpg" width="3000" height="1500" alt="Interior do studio de 28 metros quadrados" loading="lazy">
-          <span><small>Studio</small><strong>28 m²</strong></span>
+        <button class="unit-card" type="button" data-open-unit="29" aria-label="Ver detalhes do studio de 29 metros quadrados">
+          <img src="../assets/IMAGENS/Gerais/3613_F_IMG_DECORADO_F13_CAM_01_R00.webp" width="1250" height="703" alt="Perspectiva interna do studio decorado de 29 metros quadrados, final 13" loading="lazy" decoding="async">
+          <span><small>Studio · Finais 02–07 e 10–14</small><strong>29 m²</strong></span>
+        </button>
+        <button class="unit-card" type="button" data-open-unit="34" aria-label="Ver detalhes da unidade de 34 metros quadrados com uma suíte, final 15">
+          <img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F15_LIVING_R00.webp" width="1250" height="703" alt="Perspectiva interna da unidade de 34 metros quadrados com uma suíte, final 15" loading="lazy" decoding="async">
+          <span><small>1 suíte · Final 15</small><strong>34 m²</strong></span>
+        </button>
+        <button class="unit-card" type="button" data-open-unit="45" aria-label="Ver detalhes da unidade de 45 metros quadrados com dois quartos, final 08">
+          <img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F08_R01.webp" width="1250" height="703" alt="Perspectiva interna da unidade de 45 metros quadrados com dois quartos, final 08" loading="lazy" decoding="async">
+          <span><small>2 quartos · Final 08</small><strong>45 m²</strong></span>
+        </button>
+        <button class="unit-card" type="button" data-open-unit="48" aria-label="Ver detalhes da unidade de 48 metros quadrados com dois quartos, final 01">
+          <img src="../assets/IMAGENS/Gerais/3613_F_IMG_APTO_F01_COZINHA_LIVING_R05.webp" width="1250" height="703" alt="Perspectiva interna da unidade de 48 metros quadrados com dois quartos, final 01" loading="lazy" decoding="async">
+          <span><small>2 quartos · Final 01</small><strong>48 m²</strong></span>
         </button>
       </div>
     </section>
@@ -138,7 +206,7 @@
           <h2>Localização para<br>quem sabe morar.<br>Rentabilidade para<br>quem sabe investir.</h2>
           <p>A poucos passos do Shopping Flamboyant, parques, restaurantes e serviços que movimentam Goiânia.</p>
         </div>
-        <div class="location__art"><img src="../assets/location-art.jpg" width="621" height="582" alt="Ilustração japonesa de ponte e cerejeiras" loading="lazy"></div>
+        <div class="location__art"><img src="../assets/local.webp" width="751" height="646" alt="Mapa ilustrado dos principais pontos próximos ao Ryokan Flamboyant" loading="lazy" decoding="async"></div>
       </div>
     </section>
 
@@ -160,9 +228,9 @@
 
   <footer class="site-footer">
     <img class="site-footer__logo reveal" src="../assets/footer-ryokan-logo.svg" width="195" height="41" alt="Ryokan Flamboyant">
-    <div class="site-footer__partners reveal" aria-label="Realização"><span>Sousa Andrade</span><span>Humanae</span><span>NaVesa</span></div>
+    <img class="site-footer__partners reveal" src="../assets/parceiros.svg" width="469" height="40" alt="Parceiros: Sousa Andrade Construtora, Humanae Incorporadora e Grupo NaVesa">
     <div class="site-footer__meta reveal">
-      <p>Material de divulgação. Imagens meramente ilustrativas. Consulte condições e disponibilidade com a equipe comercial.</p>
+      <p class="site-footer__legal">Material de uso exclusivamente informativo e promocional. O empreendimento “Ryokan Flamboyant” será comercializado somente após a expedição do Registro de Incorporação Imobiliária pelo Cartório de Registro de Imóveis competente, nos termos da Lei Federal nº 4.591/64. As perspectivas ilustradas, acabamentos, vegetações e elementos decorativos apresentados são artísticos e provisórios, podendo sofrer variações em relação ao projeto executivo final. Móveis, luminárias e equipamentos são meras sugestões de decoração e não integram o contrato de venda da unidade imobiliária.</p>
       <p class="site-footer__credit">Desenvolvido por <a href="https://3ads.com.br/" target="_blank" rel="noopener noreferrer" data-developer-credit>3ADS</a></p>
     </div>
   </footer>
@@ -170,15 +238,28 @@
   <dialog class="unit-modal" id="unit-modal" aria-labelledby="unit-modal-title">
     <button class="unit-modal__close" type="button" aria-label="Fechar detalhes" data-close-unit>×</button>
     <div class="unit-modal__content">
-      <div>
-        <p class="eyebrow">Studio Ryokan</p>
-        <h2 id="unit-modal-title">29 m² de inteligência e conforto</h2>
-        <p>Uma planta pensada para ampliar possibilidades: ambientes integrados, varanda e soluções adequadas à moradia e ao short stay.</p>
-        <ul><li>Fechadura eletrônica</li><li>Previsão para ar-condicionado</li><li>Banheiro com acabamento em granito</li><li>Varanda integrada</li></ul>
+      <div class="unit-modal__copy">
+        <p class="eyebrow" id="unit-modal-kicker">Studio · Final 09</p>
+        <h2 id="unit-modal-title">26 m²</h2>
+        <p id="unit-modal-description">Studio de 26 m², final 09.</p>
+        <ul id="unit-modal-features"></ul>
         <a class="button" href="#contato" data-close-unit>Tenho interesse</a>
       </div>
-      <img src="../assets/floorplan.png" width="558" height="1199" alt="Planta do studio Ryokan">
+      <div class="unit-modal__gallery" data-unit-gallery aria-label="Plantas da unidade">
+        <div class="unit-modal__viewport">
+          <div class="unit-modal__track" data-unit-modal-track></div>
+        </div>
+        <button class="unit-modal__arrow unit-modal__arrow--previous" type="button" aria-label="Ver planta anterior" data-unit-plan-previous>‹</button>
+        <button class="unit-modal__arrow unit-modal__arrow--next" type="button" aria-label="Ver próxima planta" data-unit-plan-next>›</button>
+        <p class="unit-modal__counter" data-unit-plan-counter aria-live="polite"></p>
+      </div>
     </div>
+  </dialog>
+
+  <dialog class="image-lightbox" id="image-lightbox" aria-label="Visualização ampliada do ambiente">
+    <button class="image-lightbox__close" type="button" aria-label="Fechar imagem ampliada" data-close-lightbox>×</button>
+    <img src="../assets/IMAGENS/Gerais/3613_F_IMG_ACADEMIA_CAM_02_R03.webp" width="1250" height="703" alt="" data-lightbox-image>
+    <p data-lightbox-caption></p>
   </dialog>
 </body>
 </html>
