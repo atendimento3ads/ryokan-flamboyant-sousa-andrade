@@ -203,20 +203,24 @@
   const lightbox = document.querySelector('#image-lightbox');
   const lightboxImage = lightbox.querySelector('[data-lightbox-image]');
   const lightboxCaption = lightbox.querySelector('[data-lightbox-caption]');
+  const lightboxTriggers = [...document.querySelectorAll('[data-lightbox-src]')];
   let activeLightboxSlide = 0;
+  let activeLightboxContext = 'leisure_areas';
   let pendingLightboxCloseMethod = '';
 
-  const openLightbox = (slide, index) => {
+  const openLightbox = (trigger, index) => {
     activeLightboxSlide = index + 1;
-    lightboxImage.src = slide.dataset.lightboxSrc;
-    lightboxImage.alt = slide.dataset.lightboxAlt;
-    lightboxCaption.textContent = slide.dataset.lightboxAlt;
+    activeLightboxContext = trigger.dataset.lightboxContext || 'leisure_areas';
+    lightboxImage.src = trigger.dataset.lightboxSrc;
+    lightboxImage.alt = trigger.dataset.lightboxAlt;
+    lightboxCaption.textContent = trigger.dataset.lightboxAlt;
+    lightbox.classList.toggle('image-lightbox--map', activeLightboxContext === 'location_map');
     lightbox.showModal();
     document.body.classList.add('modal-open');
     trackEvent('gallery_lightbox_open', {
-      carousel_name: 'leisure_areas',
+      carousel_name: activeLightboxContext,
       slide_index: activeLightboxSlide,
-      slide_name: slide.dataset.lightboxAlt
+      slide_name: trigger.dataset.lightboxAlt
     });
   };
 
@@ -225,7 +229,10 @@
     lightbox.close();
   };
 
-  leisureSlides.forEach((slide, index) => slide.addEventListener('click', () => openLightbox(slide, index)));
+  lightboxTriggers.forEach((trigger) => {
+    const contextSlides = lightboxTriggers.filter((item) => (item.dataset.lightboxContext || 'leisure_areas') === (trigger.dataset.lightboxContext || 'leisure_areas'));
+    trigger.addEventListener('click', () => openLightbox(trigger, contextSlides.indexOf(trigger)));
+  });
   lightbox.querySelector('[data-close-lightbox]').addEventListener('click', () => closeLightbox('close_button'));
   lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox('backdrop'); });
   lightbox.addEventListener('cancel', (event) => {
@@ -235,10 +242,11 @@
   lightbox.addEventListener('close', () => {
     document.body.classList.remove('modal-open');
     trackEvent('gallery_lightbox_close', {
-      carousel_name: 'leisure_areas',
+      carousel_name: activeLightboxContext,
       slide_index: activeLightboxSlide,
       close_method: pendingLightboxCloseMethod || 'native_close'
     });
+    lightbox.classList.remove('image-lightbox--map');
     pendingLightboxCloseMethod = '';
   });
 
