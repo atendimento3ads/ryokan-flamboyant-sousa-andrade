@@ -374,7 +374,7 @@
     [...modalPlanTrack.children].forEach((slide, slideIndex) => slide.setAttribute('aria-hidden', String(slideIndex !== activeUnitPlanIndex)));
     const selectedPlan = activeUnit.plans[activeUnitPlanIndex];
     modalPlanCounter.textContent = activeUnit.plans.length > 1
-      ? `${selectedPlan.final} · Planta ${activeUnitPlanIndex + 1} de ${activeUnit.plans.length}`
+      ? `${selectedPlan.final} · ${activeUnitPlanIndex + 1} de ${activeUnit.plans.length}`
       : selectedPlan.final;
     if (shouldTrack && activeUnit.plans.length > 1) {
       trackEvent('unit_plan_carousel_navigation', {
