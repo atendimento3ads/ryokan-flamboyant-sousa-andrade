@@ -41,7 +41,7 @@ img { display: block; max-width: 100%; }
 .primary-navigation a { color: var(--beige); text-decoration: none; text-transform: uppercase; letter-spacing: .3em; font-size: .72rem; }
 
 .hero { position: relative; min-height: 100vh; min-height: 100svh; padding-top: var(--header-height); overflow: hidden; }
-.hero__image { position: absolute; inset: var(--header-height) 0 0; background: url("../assets/hero-building.webp") center top / cover no-repeat; }
+.hero__image { position: absolute; inset: var(--header-height) 0 0; background: url("assets/hero-building.webp") center top / cover no-repeat; }
 .hero__shade { position: absolute; inset: var(--header-height) 0 0; background: linear-gradient(180deg, rgba(6,7,7,.18) 0%, rgba(18,9,4,.22) 35%, rgba(18,9,4,.88) 100%); }
 .hero__content { position: relative; z-index: 1; display: grid; align-content: end; gap: 30px; min-height: calc(100vh - var(--header-height)); min-height: calc(100svh - var(--header-height)); padding-block: 120px 56px; }
 .hero__copy { text-transform: uppercase; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
@@ -109,7 +109,7 @@ img { display: block; max-width: 100%; }
 .feature-strip span { color: var(--gold-light); font: 2rem/1 Georgia, serif; }
 .feature-strip p { margin: 0; color: var(--beige); text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; line-height: 1.45; }
 
-.section-texture { background: var(--brown-850) url("../assets/gold-rays.jpg") center/cover fixed; }
+.section-texture { background: var(--brown-850) url("assets/gold-rays.jpg") center/cover fixed; }
 .units { padding: 150px 0 60px; }
 .unit-cards { margin-top: 70px; display: grid; grid-template-columns: 1fr; gap: 10px; }
 .unit-card { position: relative; height: 330px; min-height: 0; padding: 0; overflow: hidden; border: 1px solid rgba(199,173,114,.25); background: var(--brown-900); cursor: pointer; }

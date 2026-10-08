@@ -10,13 +10,13 @@ Sirva esta pasta por HTTP. Exemplo:
 python3 -m http.server 4173
 ```
 
-Abra `http://localhost:4173` para a página “Em breve” e `http://localhost:4173/home/` para a landing em desenvolvimento.
+Abra `http://localhost:4173` para visualizar a landing page.
 
 ## Integração RD Station
 
-Os formulários usam os nomes de campo `name`, `email`, `personal_phone`, `communications_consent` e `conversion_identifier`. O JavaScript valida os dados, mas não envia leads enquanto não existir um destino confirmado.
+Os formulários usam os nomes de campo `name`, `email`, `personal_phone`, `phone`, `communications_consent` e `conversion_identifier`. O campo oculto `phone` recebe o telefone em padrão E.164 (`+55...`) enquanto o campo visível preserva a máscara brasileira.
 
-O contrato preparado espera um endpoint próprio `POST /api/leads/rd-station`. Esse endpoint server-side deve guardar as credenciais, encaminhar o payload para a API de Conversões do RD Station e devolver estados claros de sucesso ou erro. Tokens nunca devem ser expostos no navegador.
+O código de monitoramento do RD Station Marketing está instalado antes do fechamento de `</body>` e realiza a captura automática dos formulários válidos. Nenhuma credencial privada é exposta no navegador.
 
 ## Eventos para Google Tag Manager
 
@@ -35,19 +35,18 @@ O código inicializa `window.dataLayer` e publica eventos sem dados pessoais. O 
 | `unit_modal_cta_click` | Clique no CTA do modal | `unit_size`, `cta_target` |
 | `lead_form_start` | Primeira interação com o formulário | `form_location` |
 | `lead_form_validation_error` | Tentativa com campos inválidos | `form_location`, `invalid_fields` |
-| `lead_form_demo_validated` | Validação local concluída | `form_location` |
+| `lead_form_capture_attempt` | Formulário validado e submetido para captura automática | `form_location` |
 
-O evento de conversão real deve ser disparado somente após a confirmação de sucesso do endpoint do RD Station.
+A confirmação da captura automática deve ser verificada no RD Station após a primeira conversão. O frontend não dispara um evento de conversão do GTM sem uma confirmação real de sucesso.
 
 ## Estrutura
 
-- `index.html`: página pública “Em breve”
-- `coming-soon.css`: estilos da página pública
-- `home/index.html`: landing em desenvolvimento com `noindex`
-- `home/styles.css`: layout, responsividade e animações da landing
-- `home/script.js`: menu, carrossel, modal e validação
-- `home/.htaccess`: cabeçalho `X-Robots-Tag` para impedir indexação
-- `robots.txt`: permite o rastreamento necessário para os buscadores lerem o `noindex`
+- `index.html`: landing page pública e indexável
+- `styles.css`: layout, responsividade e animações da landing
+- `script.js`: menu, carrosséis, modais e validação
+- `.htaccess`: configuração da raiz e redirecionamento permanente de `/home/` para `/`
+- `robots.txt`: permite o rastreamento e informa a localização do sitemap
+- `sitemap.xml`: lista a URL pública principal
 - `assets/`: imagens originais fornecidas pelo cliente
 
 A imagem principal da hero usa `assets/hero-building.webp`, otimizada em WebP a partir do arquivo de alta resolução fornecido.

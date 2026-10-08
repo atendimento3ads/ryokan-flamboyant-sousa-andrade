@@ -1,8 +1,4 @@
 (() => {
-  // Endpoint esperado no mesmo domínio para a integração futura com o RD Station.
-  // O backend deve armazenar as credenciais e encaminhar o payload para a API de Conversões.
-  const RD_STATION_PROXY_ENDPOINT = '/api/leads/rd-station';
-
   // Contrato de mensuração: o container do GTM deve consumir estes eventos
   // do dataLayer. Nenhum evento inclui nome, e-mail, telefone ou outro PII.
   window.dataLayer = window.dataLayer || [];
@@ -258,8 +254,17 @@
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
   };
 
+  const syncRdPhone = (input) => {
+    const digits = input.value.replace(/\D/g, '');
+    const rdPhone = input.form?.querySelector('[data-rd-phone]');
+    if (rdPhone) rdPhone.value = digits.length >= 10 ? `+55${digits}` : '';
+  };
+
   document.querySelectorAll('input[type="tel"]').forEach((input) => {
-    input.addEventListener('input', () => { input.value = phoneMask(input.value); });
+    input.addEventListener('input', () => {
+      input.value = phoneMask(input.value);
+      syncRdPhone(input);
+    });
   });
 
   const validateField = (field) => {
@@ -285,6 +290,8 @@
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
+      const phoneInput = form.querySelector('input[type="tel"]');
+      if (phoneInput) syncRdPhone(phoneInput);
       const fields = [...form.querySelectorAll('[required]')];
       const isValid = fields.map(validateField).every(Boolean);
       const status = form.querySelector('.form-status');
@@ -298,16 +305,8 @@
         return;
       }
 
-      /*
-       * Integração RD Station (pendente de credenciais/endpoint do cliente):
-       * enviar via POST para RD_STATION_PROXY_ENDPOINT os campos
-       * name, email, personal_phone,
-       * communications_consent e conversion_identifier para o endpoint
-       * confirmado da API de Conversões do RD Station Marketing.
-       * Nunca inclua token privado no frontend; use um endpoint server-side/proxy.
-       */
-      status.textContent = `Cadastro validado. Integração de envio aguardando configuração em ${RD_STATION_PROXY_ENDPOINT}.`;
-      trackEvent('lead_form_demo_validated', { form_location: formLocation });
+      status.textContent = 'Cadastro validado. Obrigado pelo interesse.';
+      trackEvent('lead_form_capture_attempt', { form_location: formLocation });
     });
   });
 
@@ -330,35 +329,35 @@
       type: 'Studio',
       final: 'Final 09',
       description: 'Studio de 26 m², final 09.',
-      plans: [unitPlan('Final 09', '../assets/IMAGENS/Plantas/26m-studio-final-09.webp?v=3', 1800, 834, 'Planta do studio de 26 metros quadrados, final 09')],
+      plans: [unitPlan('Final 09', 'assets/IMAGENS/Plantas/26m-studio-final-09.webp?v=3', 1800, 834, 'Planta do studio de 26 metros quadrados, final 09')],
       features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital com sistema inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada']
     },
     29: {
       type: 'Studio',
       final: 'Finais 02 a 07 e 10 a 14',
       description: 'Studio de 29 m² disponível nos finais 02, 03, 04, 05, 06, 07, 10, 11, 12, 13 e 14.',
-      plans: [2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14].map((final) => unitPlan(`Final ${String(final).padStart(2, '0')}`, `../assets/IMAGENS/Plantas/29m-studio-final-${String(final).padStart(2, '0')}.webp?v=3`, 1800, 1772, `Planta do studio de 29 metros quadrados, final ${String(final).padStart(2, '0')}`)),
+      plans: [2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14].map((final) => unitPlan(`Final ${String(final).padStart(2, '0')}`, `assets/IMAGENS/Plantas/29m-studio-final-${String(final).padStart(2, '0')}.webp?v=3`, 1800, 1772, `Planta do studio de 29 metros quadrados, final ${String(final).padStart(2, '0')}`)),
       features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada']
     },
     34: {
       type: '1 suíte',
       final: 'Final 15',
       description: 'Unidade de 34 m² com uma suíte, final 15.',
-      plans: [unitPlan('Final 15', '../assets/IMAGENS/Plantas/34m-1-suite-final-15.webp?v=3', 1800, 1376, 'Planta da unidade de 34 metros quadrados com uma suíte, final 15')],
+      plans: [unitPlan('Final 15', 'assets/IMAGENS/Plantas/34m-1-suite-final-15.webp?v=3', 1800, 1376, 'Planta da unidade de 34 metros quadrados com uma suíte, final 15')],
       features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada no quarto']
     },
     45: {
       type: '2 quartos',
       final: 'Final 08',
       description: 'Unidade de 45 m² com dois quartos, final 08.',
-      plans: [unitPlan('Final 08', '../assets/IMAGENS/Plantas/45m-2-quartos-final-08.webp?v=3', 1773, 1800, 'Planta da unidade de 45 metros quadrados com dois quartos, final 08')],
+      plans: [unitPlan('Final 08', 'assets/IMAGENS/Plantas/45m-2-quartos-final-08.webp?v=3', 1773, 1800, 'Planta da unidade de 45 metros quadrados com dois quartos, final 08')],
       features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit nos quartos e sala', 'Veneziana integrada nos quartos']
     },
     48: {
       type: '2 quartos',
       final: 'Final 01',
       description: 'Unidade de 48 m² com dois quartos, final 01.',
-      plans: [unitPlan('Final 01', '../assets/IMAGENS/Plantas/48m-2-quartos-final-01.webp?v=3', 1786, 1800, 'Planta da unidade de 48 metros quadrados com dois quartos, final 01')],
+      plans: [unitPlan('Final 01', 'assets/IMAGENS/Plantas/48m-2-quartos-final-01.webp?v=3', 1786, 1800, 'Planta da unidade de 48 metros quadrados com dois quartos, final 01')],
       features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit nos quartos e sala', 'Veneziana integrada nos quartos']
     }
   };
