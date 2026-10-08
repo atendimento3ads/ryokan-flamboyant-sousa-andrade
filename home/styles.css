@@ -139,7 +139,8 @@ img { display: block; max-width: 100%; }
 .location__art img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
 
 .closing { position: relative; min-height: 750px; display: grid; align-items: center; padding: 70px 20px; }
-.closing > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.closing__media { position: absolute; inset: 0; overflow: hidden; }
+.closing__media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .closing__veil { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(22,11,5,.1), rgba(22,11,5,.18) 45%, rgba(22,11,5,.55)); }
 .lead-form--closing { position: relative; z-index: 1; margin-inline: auto; }
 .site-footer { min-height: 310px; padding: 58px 20px 34px; display: grid; gap: 42px; align-items: center; background: var(--brown-900); }

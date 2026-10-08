@@ -10,7 +10,7 @@
   <title>Ryokan Flamboyant | Página em desenvolvimento</title>
   <link rel="icon" href="../assets/favicon%20ryokan%20flamboyant.svg" type="image/svg+xml" sizes="any">
   <link rel="preload" href="../assets/hero-building.webp" as="image" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=20261007-14">
+  <link rel="stylesheet" href="styles.css?v=20261008-15">
   <script src="script.js?v=20261007-7" defer></script>
 </head>
 <body>
@@ -213,7 +213,10 @@
     </section>
 
     <section class="closing" id="contato">
-      <img src="../assets/street-scene.png" width="1672" height="941" alt="Fachada do Ryokan Flamboyant em cena urbana" loading="lazy">
+      <picture class="closing__media">
+        <source media="(max-width: 699px)" srcset="../assets/contact-facade-mobile.webp" width="780" height="1500">
+        <img src="../assets/contact-facade.webp" width="2560" height="1506" alt="Fachada do Ryokan Flamboyant em cena urbana" loading="lazy" decoding="async">
+      </picture>
       <div class="closing__veil"></div>
       <form class="lead-form lead-form--closing reveal reveal--right" id="closing-form" novalidate data-lead-form>
         <h2>Cadastre-se</h2>
