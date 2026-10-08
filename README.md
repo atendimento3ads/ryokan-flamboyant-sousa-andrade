@@ -18,6 +18,8 @@ Os formulários usam os nomes de campo `name`, `email`, `personal_phone`, `phone
 
 O código de monitoramento do RD Station Marketing está instalado antes do fechamento de `</body>` e realiza a captura automática dos formulários válidos. Nenhuma credencial privada é exposta no navegador.
 
+Após a validação, os formulários aguardam brevemente a captura automática e redirecionam para `/obrigado/`. A página de confirmação também carrega o monitoramento do RD Station, permitindo mensurar a conversão pelo caminho da URL.
+
 ## Eventos para Google Tag Manager
 
 O código inicializa `window.dataLayer` e publica eventos sem dados pessoais. O ID do container GTM não foi incluído porque não foi fornecido.
@@ -44,6 +46,7 @@ A confirmação da captura automática deve ser verificada no RD Station após a
 - `index.html`: landing page pública e indexável
 - `styles.css`: layout, responsividade e animações da landing
 - `script.js`: menu, carrosséis, modais e validação
+- `obrigado/`: página de confirmação não indexável exibida após o envio válido dos formulários
 - `.htaccess`: configuração da raiz e redirecionamento permanente de `/home/` para `/`
 - `robots.txt`: permite o rastreamento e informa a localização do sitemap
 - `sitemap.xml`: lista a URL pública principal

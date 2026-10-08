@@ -68,6 +68,7 @@ img { display: block; max-width: 100%; }
 .form-consent input { accent-color: var(--gold); }
 .button { display: inline-flex; justify-content: center; align-items: center; min-height: 34px; padding: 0 28px; border: 1px solid var(--gold-light); background: var(--gold-light); color: var(--brown-950); text-decoration: none; text-transform: uppercase; letter-spacing: .16em; font-size: .59rem; cursor: pointer; transition: background .25s ease, color .25s ease, transform .25s ease; }
 .button:hover { background: transparent; color: var(--gold-light); transform: translateY(-2px); }
+.button:disabled { opacity: .68; cursor: wait; transform: none; }
 .button--full { width: 100%; }
 .form-status { min-height: 15px; margin: 10px 0 0; color: var(--cream); text-align: center; font-size: .66rem; }
 

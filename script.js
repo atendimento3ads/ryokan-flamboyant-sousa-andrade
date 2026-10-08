@@ -305,8 +305,16 @@
         return;
       }
 
-      status.textContent = 'Cadastro validado. Obrigado pelo interesse.';
+      const submitButton = form.querySelector('[type="submit"]');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.setAttribute('aria-disabled', 'true');
+      }
+      status.textContent = 'Cadastro validado. Redirecionando...';
       trackEvent('lead_form_capture_attempt', { form_location: formLocation });
+      window.setTimeout(() => {
+        window.location.assign('/obrigado/');
+      }, 1200);
     });
   });
 
