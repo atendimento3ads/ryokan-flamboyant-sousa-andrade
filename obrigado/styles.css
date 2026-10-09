@@ -99,6 +99,30 @@ body {
   outline-offset: 5px;
 }
 
+.thank-you__legal {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+}
+
+.thank-you__legal a,
+.thank-you__legal button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(229, 220, 197, .68);
+  font: inherit;
+  font-size: .68rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.thank-you__legal a:hover,
+.thank-you__legal button:hover { color: var(--cream); }
+
 @media (min-width: 700px) {
   .thank-you {
     padding: 50px;

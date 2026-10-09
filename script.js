@@ -3,6 +3,7 @@
   // do dataLayer. Nenhum evento inclui nome, e-mail, telefone ou outro PII.
   window.dataLayer = window.dataLayer || [];
   const trackEvent = (event, parameters = {}) => {
+    if (!window.ryokanConsent?.allows('analytics')) return;
     window.dataLayer.push({
       event,
       page_name: 'ryokan_flamboyant',
@@ -279,6 +280,41 @@
     return !message;
   };
 
+  const RD_STATION_LOADER_URL = 'https://d335luupugsy2.cloudfront.net/js/loader-scripts/982dc448-4c45-41c9-b491-edf1361459bd-loader.js';
+  let rdStationLoaderPromise;
+  const loadRdStationCapture = () => {
+    if (rdStationLoaderPromise) return rdStationLoaderPromise;
+
+    rdStationLoaderPromise = new Promise((resolve, reject) => {
+      const existingLoader = document.querySelector('script[data-rd-station-loader]');
+      if (existingLoader?.dataset.loaded === 'true') {
+        resolve();
+        return;
+      }
+
+      const loader = existingLoader || document.createElement('script');
+      const handleLoad = () => {
+        loader.dataset.loaded = 'true';
+        resolve();
+      };
+      const handleError = () => {
+        rdStationLoaderPromise = undefined;
+        reject(new Error('Falha ao carregar a integração de cadastro.'));
+      };
+
+      loader.addEventListener('load', handleLoad, { once: true });
+      loader.addEventListener('error', handleError, { once: true });
+      if (!existingLoader) {
+        loader.src = RD_STATION_LOADER_URL;
+        loader.async = true;
+        loader.dataset.rdStationLoader = '';
+        document.body.append(loader);
+      }
+    });
+
+    return rdStationLoaderPromise;
+  };
+
   document.querySelectorAll('[data-lead-form]').forEach((form) => {
     const formLocation = form.id === 'hero-form' ? 'hero' : 'closing';
     let formStarted = false;
@@ -288,8 +324,9 @@
       trackEvent('lead_form_start', { form_location: formLocation });
     });
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
+      if (form.dataset.rdCaptureDispatch === 'true') return;
       const phoneInput = form.querySelector('input[type="tel"]');
       if (phoneInput) syncRdPhone(phoneInput);
       const fields = [...form.querySelectorAll('[required]')];
@@ -312,9 +349,22 @@
       }
       status.textContent = 'Cadastro validado. Redirecionando...';
       trackEvent('lead_form_capture_attempt', { form_location: formLocation });
-      window.setTimeout(() => {
-        window.location.assign('/obrigado/');
-      }, 1200);
+      try {
+        await loadRdStationCapture();
+        form.dataset.rdCaptureDispatch = 'true';
+        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        delete form.dataset.rdCaptureDispatch;
+        window.setTimeout(() => {
+          window.location.assign('/obrigado/');
+        }, 1200);
+      } catch {
+        delete form.dataset.rdCaptureDispatch;
+        status.textContent = 'Não foi possível enviar agora. Tente novamente em instantes.';
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.removeAttribute('aria-disabled');
+        }
+      }
     });
   });
 

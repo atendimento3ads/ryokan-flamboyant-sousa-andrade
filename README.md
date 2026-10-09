@@ -16,13 +16,15 @@ Abra `http://localhost:4173` para visualizar a landing page.
 
 Os formulários usam os nomes de campo `name`, `email`, `personal_phone`, `phone`, `communications_consent` e `conversion_identifier`. O campo oculto `phone` recebe o telefone em padrão E.164 (`+55...`) enquanto o campo visível preserva a máscara brasileira.
 
-O código de monitoramento do RD Station Marketing está instalado antes do fechamento de `</body>` e realiza a captura automática dos formulários válidos. Nenhuma credencial privada é exposta no navegador.
+O carregador de captura do RD Station Marketing não é executado durante uma visita comum. Ele é carregado somente depois que o visitante preenche um formulário válido, autoriza o contato e envia seus dados. Nenhuma credencial privada é exposta no navegador.
 
-Após a validação, os formulários aguardam brevemente a captura automática e redirecionam para `/obrigado/`. A página de confirmação também carrega o monitoramento do RD Station, permitindo mensurar a conversão pelo caminho da URL.
+Após a validação, os formulários aguardam brevemente a captura automática e redirecionam para `/obrigado/`. A confirmação da captura deve ser verificada no painel do RD Station.
 
-## Eventos para Google Tag Manager
+## Google Tag Manager e eventos
 
-O código inicializa `window.dataLayer` e publica eventos sem dados pessoais. O ID do container GTM não foi incluído porque não foi fornecido.
+O container `GTM-T6S2CN99` usa Google Consent Mode v2 em modo básico. `analytics_storage`, `ad_storage`, `ad_user_data` e `ad_personalization` começam como `denied`, e o GTM só é carregado após autorização de Analytics ou Marketing. Não existe fallback `noscript`, pois ele burlaria a decisão de consentimento. O código publica eventos sem dados pessoais somente quando Analytics está autorizado.
+
+O estado é salvo em `localStorage` na chave `ryokan_privacy_consent`, com categorias, data, versão e modo de consentimento. O banner oferece ações equivalentes para aceitar ou rejeitar opcionais, além do painel para configurar Analytics e Marketing separadamente. O link “Configurações de privacidade” reabre o painel.
 
 | Evento | Momento | Parâmetros principais |
 | --- | --- | --- |
@@ -46,6 +48,9 @@ A confirmação da captura automática deve ser verificada no RD Station após a
 - `index.html`: landing page pública e indexável
 - `styles.css`: layout, responsividade e animações da landing
 - `script.js`: menu, carrosséis, modais e validação
+- `privacy-consent.js` e `privacy.css`: consentimento, bloqueio prévio do GTM e interface de preferências
+- `privacidade/`: aviso complementar baseado na Política de Privacidade oficial da Sousa Andrade
+- `politica-de-cookies/`: inventário técnico e controles de cookies/armazenamento
 - `obrigado/`: página de confirmação não indexável exibida após o envio válido dos formulários
 - `.htaccess`: configuração da raiz e redirecionamento permanente de `/home/` para `/`
 - `robots.txt`: permite o rastreamento e informa a localização do sitemap
@@ -53,3 +58,5 @@ A confirmação da captura automática deve ser verificada no RD Station após a
 - `assets/`: imagens originais fornecidas pelo cliente
 
 A imagem principal da hero usa `assets/hero-building.webp`, otimizada em WebP a partir do arquivo de alta resolução fornecido.
+
+Os Termos de Uso permanecem como pendência jurídica: nenhuma versão oficial foi localizada no site público da Sousa Andrade, portanto não foi publicado um texto definitivo sem aprovação da responsável.
