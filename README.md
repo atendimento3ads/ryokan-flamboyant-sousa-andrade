@@ -16,15 +16,17 @@ Abra `http://localhost:4173` para visualizar a landing page.
 
 Os formulários usam os nomes de campo `name`, `email`, `personal_phone`, `phone`, `communications_consent` e `conversion_identifier`. O campo oculto `phone` recebe o telefone em padrão E.164 (`+55...`) enquanto o campo visível preserva a máscara brasileira.
 
-O carregador de captura do RD Station Marketing não é executado durante uma visita comum. Ele é carregado somente depois que o visitante preenche um formulário válido, autoriza o contato e envia seus dados. Nenhuma credencial privada é exposta no navegador.
+O carregador de captura do RD Station Marketing inicia em todas as visitas como integração funcional do formulário. O fluxo de envio aguarda sua disponibilidade e evita redisparar o evento quando o RD já estava pronto. Nenhuma credencial privada é exposta no navegador.
 
 Após a validação, os formulários aguardam brevemente a captura automática e redirecionam para `/obrigado/`. A confirmação da captura deve ser verificada no painel do RD Station.
 
 ## Google Tag Manager e eventos
 
-O container `GTM-T6S2CN99` usa Google Consent Mode v2 em modo básico. `analytics_storage`, `ad_storage`, `ad_user_data` e `ad_personalization` começam como `denied`, e o GTM só é carregado após autorização de Analytics ou Marketing. Não existe fallback `noscript`, pois ele burlaria a decisão de consentimento. O código publica eventos sem dados pessoais somente quando Analytics está autorizado.
+O container `GTM-T6S2CN99` usa Google Consent Mode v2 em modo avançado. `analytics_storage`, `ad_storage`, `ad_user_data` e `ad_personalization` começam como `denied`, mas o contêiner do GTM é carregado desde a abertura para receber e aplicar as atualizações de consentimento. Não existe fallback `noscript`, pois ele não consegue aplicar as preferências do visitante. O código publica eventos personalizados sem dados pessoais somente quando Analytics está autorizado.
 
 O estado é salvo em `localStorage` na chave `ryokan_privacy_consent`, com categorias, data, versão e modo de consentimento. O banner oferece ações equivalentes para aceitar ou rejeitar opcionais, além do painel para configurar Analytics e Marketing separadamente. O link “Configurações de privacidade” reabre o painel.
+
+As alterações de preferência atualizam o Consent Mode imediatamente, sem depender de recarga manual. GTM e RD Station permanecem carregados para que o Tag Assistant e a captura funcional dos formulários estejam disponíveis em qualquer escolha.
 
 | Evento | Momento | Parâmetros principais |
 | --- | --- | --- |

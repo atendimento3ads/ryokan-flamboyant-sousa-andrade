@@ -2,13 +2,14 @@
   'use strict';
 
   const STORAGE_KEY = 'ryokan_privacy_consent';
-  const CONSENT_VERSION = '2026-10-09';
-  const CONSENT_MODE = 'basic';
+  const CONSENT_VERSION = '2026-10-13';
+  const CONSENT_MODE = 'advanced';
   const scriptElement = document.currentScript;
   const siteRoot = new URL('.', scriptElement?.src || window.location.href);
   const gtmId = scriptElement?.dataset.gtmId || '';
   const policyUrl = new URL('privacidade/', siteRoot).href;
   const cookiesUrl = new URL('politica-de-cookies/', siteRoot).href;
+  const rdStationLoaderUrl = 'https://d335luupugsy2.cloudfront.net/js/loader-scripts/982dc448-4c45-41c9-b491-edf1361459bd-loader.js';
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
@@ -46,6 +47,8 @@
 
   let consentState = readState();
   let gtmLoaded = false;
+  let rdStationLoaded = false;
+  let rdStationLoadScheduled = false;
   let preferencesDialog;
   let banner;
 
@@ -61,7 +64,7 @@
   };
 
   const loadGtm = () => {
-    if (gtmLoaded || !gtmId || (!allows('analytics') && !allows('marketing'))) return;
+    if (gtmLoaded || !gtmId) return;
     gtmLoaded = true;
     window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
     const firstScript = document.getElementsByTagName('script')[0];
@@ -70,6 +73,33 @@
     gtmScript.dataset.consentManagedGtm = '';
     gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
     firstScript.parentNode.insertBefore(gtmScript, firstScript);
+  };
+
+  const loadRdStation = () => {
+    if (rdStationLoaded) return;
+    if (document.readyState === 'loading') {
+      if (!rdStationLoadScheduled) {
+        rdStationLoadScheduled = true;
+        document.addEventListener('DOMContentLoaded', () => {
+          rdStationLoadScheduled = false;
+          loadRdStation();
+        }, { once: true });
+      }
+      return;
+    }
+    const existingLoader = document.querySelector('script[data-rd-station-loader]');
+    if (existingLoader) {
+      rdStationLoaded = true;
+      return;
+    }
+
+    rdStationLoaded = true;
+    const rdScript = document.createElement('script');
+    rdScript.async = true;
+    rdScript.src = rdStationLoaderUrl;
+    rdScript.dataset.rdStationLoader = '';
+    rdScript.addEventListener('load', () => { rdScript.dataset.loaded = 'true'; }, { once: true });
+    document.head.append(rdScript);
   };
 
   const deleteCookie = (name, domain = '') => {
@@ -109,24 +139,21 @@
   };
 
   const persist = (analytics, marketing) => {
-    const previouslyAllowed = allows('analytics') || allows('marketing');
+    const nextAnalytics = Boolean(analytics);
+    const nextMarketing = Boolean(marketing);
     consentState = {
       version: CONSENT_VERSION,
       mode: CONSENT_MODE,
-      analytics: Boolean(analytics),
-      marketing: Boolean(marketing),
+      analytics: nextAnalytics,
+      marketing: nextMarketing,
       updatedAt: new Date().toISOString()
     };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(consentState)); } catch (_) {}
     updateConsentMode();
-    if (allows('analytics') || allows('marketing')) loadGtm();
-    else clearOptionalCookies();
+    if (!allows('analytics') && !allows('marketing')) clearOptionalCookies();
     window.dispatchEvent(new CustomEvent('ryokan:consentchange', { detail: { ...consentState } }));
     hideBanner();
     preferencesDialog?.close();
-
-    // Basic Consent Mode cannot unload an already executed container safely.
-    if (previouslyAllowed && !allows('analytics') && !allows('marketing') && gtmLoaded) window.location.reload();
   };
 
   const openPreferences = () => {
@@ -148,7 +175,7 @@
       <div class="privacy-banner__inner">
         <div class="privacy-banner__copy">
           <h2>Privacidade sob seu controle</h2>
-          <p>Usamos armazenamento necessário para lembrar sua escolha. Analytics e Marketing permanecem desativados até sua autorização. Consulte o <a href="${policyUrl}">Aviso de Privacidade</a> e a <a href="${cookiesUrl}">Política de Cookies</a>.</p>
+          <p>As integrações necessárias ao formulário são carregadas desde a abertura. Suas preferências controlam o uso de Analytics e Marketing. Consulte o <a href="${policyUrl}">Aviso de Privacidade</a> e a <a href="${cookiesUrl}">Política de Cookies</a>.</p>
         </div>
         <div class="privacy-banner__actions">
           <button class="privacy-action privacy-action--primary" type="button" data-consent-reject>Rejeitar opcionais</button>
@@ -211,10 +238,9 @@
     document.querySelectorAll('[data-privacy-settings]').forEach((button) => button.addEventListener('click', openPreferences));
   };
 
-  if (consentState.updatedAt) {
-    updateConsentMode();
-    loadGtm();
-  }
+  if (consentState.updatedAt) updateConsentMode();
+  loadGtm();
+  loadRdStation();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderInterface, { once: true });
   else renderInterface();
 })();

@@ -315,6 +315,10 @@
     return rdStationLoaderPromise;
   };
 
+  const isRdStationCaptureReady = () => Boolean(
+    document.querySelector('script[data-rd-station-loader][data-loaded="true"]')
+  );
+
   document.querySelectorAll('[data-lead-form]').forEach((form) => {
     const formLocation = form.id === 'hero-form' ? 'hero' : 'closing';
     let formStarted = false;
@@ -350,10 +354,13 @@
       status.textContent = 'Cadastro validado. Redirecionando...';
       trackEvent('lead_form_capture_attempt', { form_location: formLocation });
       try {
+        const rdStationWasReady = isRdStationCaptureReady();
         await loadRdStationCapture();
-        form.dataset.rdCaptureDispatch = 'true';
-        form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-        delete form.dataset.rdCaptureDispatch;
+        if (!rdStationWasReady) {
+          form.dataset.rdCaptureDispatch = 'true';
+          form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+          delete form.dataset.rdCaptureDispatch;
+        }
         window.setTimeout(() => {
           window.location.assign('/obrigado/');
         }, 1200);
