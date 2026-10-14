@@ -59,6 +59,6 @@ A confirmação da captura automática deve ser verificada no RD Station após a
 - `sitemap.xml`: lista a URL pública principal
 - `assets/`: imagens originais fornecidas pelo cliente
 
-A imagem principal da hero usa `assets/hero-building.webp`, otimizada em WebP a partir do arquivo de alta resolução fornecido.
+A hero usa `assets/hero-video.mp4` no desktop e `assets/hero-video-mobile.mp4` em telas menores. Ambos são H.264 sem áudio, reproduzidos a 30 FPS, com reprodução contínua e o arquivo `assets/hero-building.webp` como poster/fallback. Em preferência de movimento reduzido, somente a imagem estática é exibida.
 
 Os Termos de Uso permanecem como pendência jurídica: nenhuma versão oficial foi localizada no site público da Sousa Andrade, portanto não foi publicado um texto definitivo sem aprovação da responsável.

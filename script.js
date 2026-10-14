@@ -11,6 +11,18 @@
     });
   };
 
+  const heroVideo = document.querySelector('.hero__video');
+  if (heroVideo) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncHeroPlayback = () => {
+      if (reducedMotion.matches || document.hidden) heroVideo.pause();
+      else heroVideo.play().catch(() => {});
+    };
+    syncHeroPlayback();
+    reducedMotion.addEventListener?.('change', syncHeroPlayback);
+    document.addEventListener('visibilitychange', syncHeroPlayback);
+  }
+
   const header = document.querySelector('[data-header]');
   const menuToggle = document.querySelector('.menu-toggle');
   const navigation = document.querySelector('.primary-navigation');
@@ -128,7 +140,7 @@
     let startY = 0;
     let dragOffset = 0;
     let isDragging = false;
-    let suppressClick = false;
+    let suppressClickUntil = 0;
 
     const finishDrag = (event, cancelled = false) => {
       if (pointerId === null || event.pointerId !== pointerId) return;
@@ -138,7 +150,7 @@
       viewport.classList.remove('is-dragging');
       track.classList.remove('is-dragging');
       if (shouldNavigate) {
-        suppressClick = true;
+        suppressClickUntil = performance.now() + 350;
         navigate(dragOffset < 0 ? 1 : -1, pointerType === 'mouse' ? 'drag' : 'swipe');
       } else {
         renderOffset(0);
@@ -154,15 +166,17 @@
       startY = event.clientY;
       dragOffset = 0;
       isDragging = false;
-      viewport.setPointerCapture?.(pointerId);
     });
 
     viewport.addEventListener('pointermove', (event) => {
       if (event.pointerId !== pointerId) return;
       const distanceX = event.clientX - startX;
       const distanceY = event.clientY - startY;
-      if (!isDragging && Math.abs(distanceX) <= Math.max(8, Math.abs(distanceY))) return;
-      isDragging = true;
+      if (!isDragging) {
+        if (Math.abs(distanceX) <= Math.max(8, Math.abs(distanceY))) return;
+        isDragging = true;
+        viewport.setPointerCapture?.(pointerId);
+      }
       dragOffset = distanceX * .88;
       viewport.classList.add('is-dragging');
       track.classList.add('is-dragging');
@@ -174,10 +188,10 @@
     viewport.addEventListener('pointercancel', (event) => finishDrag(event, true));
     viewport.addEventListener('lostpointercapture', (event) => finishDrag(event, true));
     viewport.addEventListener('click', (event) => {
-      if (!suppressClick) return;
+      if (performance.now() > suppressClickUntil) return;
       event.preventDefault();
       event.stopPropagation();
-      suppressClick = false;
+      suppressClickUntil = 0;
     }, true);
   };
 
@@ -201,9 +215,21 @@
   const lightboxImage = lightbox.querySelector('[data-lightbox-image]');
   const lightboxCaption = lightbox.querySelector('[data-lightbox-caption]');
   const lightboxTriggers = [...document.querySelectorAll('[data-lightbox-src]')];
+  const hasNativeDialog = typeof lightbox.showModal === 'function' && typeof lightbox.close === 'function';
   let activeLightboxSlide = 0;
   let activeLightboxContext = 'leisure_areas';
   let pendingLightboxCloseMethod = '';
+
+  const resetLightboxState = () => {
+    document.body.classList.remove('modal-open');
+    trackEvent('gallery_lightbox_close', {
+      carousel_name: activeLightboxContext,
+      slide_index: activeLightboxSlide,
+      close_method: pendingLightboxCloseMethod || 'native_close'
+    });
+    lightbox.classList.remove('image-lightbox--map', 'is-fallback-open');
+    pendingLightboxCloseMethod = '';
+  };
 
   const openLightbox = (trigger, index) => {
     activeLightboxSlide = index + 1;
@@ -212,7 +238,11 @@
     lightboxImage.alt = trigger.dataset.lightboxAlt;
     lightboxCaption.textContent = trigger.dataset.lightboxAlt;
     lightbox.classList.toggle('image-lightbox--map', activeLightboxContext === 'location_map');
-    lightbox.showModal();
+    if (hasNativeDialog) lightbox.showModal();
+    else {
+      lightbox.setAttribute('open', '');
+      lightbox.classList.add('is-fallback-open');
+    }
     document.body.classList.add('modal-open');
     trackEvent('gallery_lightbox_open', {
       carousel_name: activeLightboxContext,
@@ -223,7 +253,11 @@
 
   const closeLightbox = (method) => {
     pendingLightboxCloseMethod = method;
-    lightbox.close();
+    if (hasNativeDialog) lightbox.close();
+    else {
+      lightbox.removeAttribute('open');
+      resetLightboxState();
+    }
   };
 
   lightboxTriggers.forEach((trigger) => {
@@ -236,15 +270,9 @@
     event.preventDefault();
     closeLightbox('escape_key');
   });
-  lightbox.addEventListener('close', () => {
-    document.body.classList.remove('modal-open');
-    trackEvent('gallery_lightbox_close', {
-      carousel_name: activeLightboxContext,
-      slide_index: activeLightboxSlide,
-      close_method: pendingLightboxCloseMethod || 'native_close'
-    });
-    lightbox.classList.remove('image-lightbox--map');
-    pendingLightboxCloseMethod = '';
+  lightbox.addEventListener('close', resetLightboxState);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('is-fallback-open')) closeLightbox('escape_key');
   });
 
   const phoneMask = (value) => {
@@ -390,13 +418,6 @@
   const modalPlanCounter = document.querySelector('[data-unit-plan-counter]');
   const unitPlan = (final, image, imageWidth, imageHeight, imageAlt) => ({ final, image, imageWidth, imageHeight, imageAlt });
   const unitData = {
-    26: {
-      type: 'Studio',
-      final: 'Final 09',
-      description: 'Studio de 26 m², final 09.',
-      plans: [unitPlan('Final 09', 'assets/IMAGENS/Plantas/26m-studio-final-09.webp?v=3', 1800, 834, 'Planta do studio de 26 metros quadrados, final 09')],
-      features: ['Bancada da cozinha em granito polido', 'Bancada do banho em mármore polido', 'Banheiro 100% revestido', 'Fechadura digital com sistema inteligente na porta de acesso', 'Infraestrutura para instalação de ar-condicionado tipo split/multisplit no quarto', 'Veneziana integrada']
-    },
     29: {
       type: 'Studio',
       final: 'Finais 02 a 07 e 10 a 14',
