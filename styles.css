@@ -134,7 +134,7 @@ img { display: block; max-width: 100%; }
 .location-map-trigger { display: block; width: 100%; padding: 0; overflow: hidden; border: 0; background: transparent; cursor: zoom-in; }
 .location-map-trigger:focus-visible { outline: 2px solid var(--gold-light); outline-offset: -4px; }
 .location-map { width: 100%; height: auto; aspect-ratio: 4096 / 2476; object-fit: contain; }
-.location { min-height: 630px; padding-block: 100px; }
+.location { padding-block: clamp(60px, 7vw, 90px); }
 .location__inner { display: grid; grid-template-columns: 1fr; gap: 55px; align-items: center; }
 .location__copy h2 { margin: 0; color: var(--gold-light); text-transform: uppercase; letter-spacing: .13em; font-weight: 400; font-size: clamp(1rem, 2.2vw, 1.35rem); line-height: 1.45; }
 .location__copy p { max-width: 440px; color: rgba(229,220,197,.6); font-size: .8rem; line-height: 1.7; }
@@ -252,7 +252,6 @@ img { display: block; max-width: 100%; }
   .unit-cards { grid-template-columns: repeat(2, 1fr); }
   .unit-card { width: auto; height: 460px; min-height: 0; justify-self: stretch; }
   .heritage, .heritage h2 { min-height: 700px; }
-  .location { min-height: 650px; }
   .closing { min-height: 610px; }
   .site-footer__meta { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
 }
