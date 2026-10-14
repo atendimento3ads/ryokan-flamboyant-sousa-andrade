@@ -138,8 +138,8 @@ img { display: block; max-width: 100%; }
 .location__inner { display: grid; grid-template-columns: 1fr; gap: 55px; align-items: center; }
 .location__copy h2 { margin: 0; color: var(--gold-light); text-transform: uppercase; letter-spacing: .13em; font-weight: 400; font-size: clamp(1rem, 2.2vw, 1.35rem); line-height: 1.45; }
 .location__copy p { max-width: 440px; color: rgba(229,220,197,.6); font-size: .8rem; line-height: 1.7; }
-.location__art { min-height: 360px; display: grid; place-items: center; overflow: hidden; background: var(--beige); }
-.location__art img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+.location__art { min-height: 0; display: grid; place-items: center; overflow: hidden; background: var(--brown-900); }
+.location__art img { display: block; width: 100%; height: auto; }
 
 .closing { position: relative; min-height: 750px; display: grid; align-items: center; padding: 70px 20px; }
 .closing__media { position: absolute; inset: 0; overflow: hidden; }
